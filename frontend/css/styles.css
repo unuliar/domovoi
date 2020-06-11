@@ -176,7 +176,6 @@ a {
     color: #3cb878;
 }
 
-
 .content_header {
     width:100%;
     height:80px;
@@ -220,6 +219,10 @@ a {
     padding: 20px 20px 20px 90px;
 }
 
+.list_item:hover {
+    text-decoration: none;
+}
+
 .list_item_active {
     background: #fff;
     outline: 1px solid #e7e9f0;
@@ -240,7 +243,11 @@ a {
 .category_item {
     background: #fff;
     padding-left: 20px;
+    text-transform: uppercase;
+}
 
+.category_item h4 {
+    font-size:16px;
 }
 
 .category_item:hover {
@@ -254,3 +261,27 @@ a {
 .category_item_payments {
     border-left:10px solid #0072bc;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

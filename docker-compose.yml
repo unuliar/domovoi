@@ -46,9 +46,20 @@ services:
       # Так же линкуем конфиг для nginx
       - "./docker/frontend/conf/nginx:/etc/nginx/sites-available"
   db:
-    image: postgres
-    restart: always
+    image: mysql:latest
+    # Подключаем к общей сети с другими контейнерами
+    networks:
+      - default
+    # Показываем наружу порт
     ports:
-      - 54322:5432
+      - "3336:3306"
+    # Задаем параметры для инициализации БД
     environment:
-      POSTGRES_PASSWORD: root
+      # Пароль к БД
+      MYSQL_ROOT_PASSWORD: root
+      # Создаваемая по умолчанию бд
+      MYSQL_DATABASE: domovoi
+      DB_PATH_HOST: /tmp/mysql
+    # Линкуем внешнюю папку для хранения БД
+    volumes:
+      - "./database:/var/lib/mysql"

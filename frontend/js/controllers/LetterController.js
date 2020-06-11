@@ -1,7 +1,6 @@
 app.controller('LetterController', function ($scope, $rootScope) {
     $rootScope.pageTitle = "Письма";
 
-
     $scope.lettersCollection = [
         {
             categoryName: 'Управляющая компания',
@@ -9,6 +8,7 @@ app.controller('LetterController', function ($scope, $rootScope) {
             collapsed: false,
             letters: [
                 {
+                    id: 1,
                     title: "Убрать УК",
                     date: "22 мая, 2020",
                     user: {
@@ -20,6 +20,7 @@ app.controller('LetterController', function ($scope, $rootScope) {
                 },
 
                 {
+                    id: 2,
                     title: "Убрать УК 2",
                     date: "23 мая, 2020",
                     user: {
@@ -38,6 +39,7 @@ app.controller('LetterController', function ($scope, $rootScope) {
             collapsed: false,
             letters: [
                 {
+                    id: 3,
                     title: "Много платим",
                     date: "22 мая, 2020",
                     user: {
@@ -49,6 +51,7 @@ app.controller('LetterController', function ($scope, $rootScope) {
                 },
 
                 {
+                    id: 4,
                     title: "Очень дорого",
                     date: "23 мая, 2020",
                     user: {
