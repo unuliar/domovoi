@@ -1,0 +1,54 @@
+version: '3'
+
+networks:
+  default:
+    driver: bridge
+
+services:
+  # Контейнер с веб-приложением
+  backend:
+    # Собираем из Dockerfile
+    build:
+      # Корнем указываем корень основного проекта
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    # Показываем наружу 80 порт
+    ports:
+      - "81:80"
+    # Подключаем к общей сети с другими контейнерами
+    networks:
+      - default
+    # Запускаем только после db
+    depends_on:
+      - db
+    # Линкуем внешнюю папку с исходниками внутрь
+    volumes:
+      - "./backend:/var/www/backend"
+      # Так же линкуем конфиг для nginx
+      - "./docker/backend/conf/nginx:/etc/nginx/sites-available"
+    links:
+      - db:db
+  frontend:
+    # Собираем из Dockerfile
+    build:
+      # Корнем указываем корень основного проекта
+      context: .
+      dockerfile: ./docker/frontend/Dockerfile
+    # Показываем наружу 80 порт
+    ports:
+      - "80:80"
+    # Подключаем к общей сети с другими контейнерами
+    networks:
+      - default
+    # Линкуем внешнюю папку с исходниками внутрь
+    volumes:
+      - "./frontend:/var/www/frontend"
+      # Так же линкуем конфиг для nginx
+      - "./docker/frontend/conf/nginx:/etc/nginx/sites-available"
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 54322:5432
+    environment:
+      POSTGRES_PASSWORD: root
