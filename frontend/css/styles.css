@@ -1,0 +1,256 @@
+@font-face {
+    font-family: Jost;
+    font-weight: 100;
+    src: url('../fonts/Jost-Light.ttf');
+}
+
+@font-face {
+    font-family: Jost;
+    font-weight: 300;
+    src: url('../fonts/Jost-Regular.ttf');
+}
+
+/*@font-face {*/
+/*    font-family: Jost;*/
+/*    font-weight: 500;*/
+/*    src: url('../fonts/Jost-Medium.ttf');*/
+/*}*/
+
+/*@font-face {*/
+/*    font-family: Jost;*/
+/*    font-weight: 700;*/
+/*    src: url('../fonts/Jost-Bold.ttf');*/
+/*}*/
+
+html, body , .row, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .container-fluid  {
+    margin:0;
+    padding: 0;
+}
+
+html,body {
+    height:100%;
+}
+
+h3 {
+    font-family: Jost;
+    font-size: 23.5px;
+    font-weight: 700;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: 0.59px;
+    color: #141836;
+}
+
+h4 {
+    font-family: Jost;
+    font-size: 21px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    font-weight:600;
+    letter-spacing: 0.45px;
+    color: #141836;
+}
+
+h5 {
+    font-family: Jost;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: 0.43px;
+    color: #777792;
+}
+
+time {
+    font-family: Jost;
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.32;
+    letter-spacing: 0.28px;
+    color: #8a8ba9;
+}
+
+a {
+    transition: all ease-in-out .2s;
+}
+
+.container-fluid {
+    height:100%;
+}
+
+.sidebar {
+    border-right: 2px solid #e7e9f0;
+    height:100%;
+}
+
+.sidebar__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    border-bottom: 2px solid #e7e9f0;
+}
+
+.sidebar__person_data {
+    padding-top:42px;
+}
+
+.person_avatar {
+    width:100%;
+    display: flex;
+    justify-content: center;
+}
+
+.person_info {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tabs_wrapper {
+    margin-top: 29px;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 45px;
+    border-bottom: 2px solid  #e7e9f0;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    width: 250px;
+}
+
+.tabs a:hover {
+    opacity: .7;
+}
+
+.sidebar__nav {
+    padding: 39px;
+}
+
+.sidebar__nav .nav {
+    margin-top:20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar__nav .nav span{
+    font-family: Jost;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.89;
+    letter-spacing: 0.48px;
+    color: #8d91a1;
+}
+
+.sidebar__nav a {
+    color: #8d91a1;
+}
+
+.sidebar__nav a:hover {
+    color: #bdc2d3;
+    text-decoration: none;
+}
+
+.circle-uk {
+    color: #a667e0;
+}
+
+.circle-payments {
+    color: #0072bc;
+}
+
+.circle-people {
+    color: #f68e56;
+}
+
+.circle-news {
+    color: #3cb878;
+}
+
+
+.content_header {
+    width:100%;
+    height:80px;
+    border-bottom: 2px solid #e7e9f0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    box-shadow:         inset 19px 0px 23px -13px rgba(50, 50, 50, 0.13);
+}
+
+.content_header h3 {
+    text-transform: uppercase;
+}
+
+.overlay {
+    position: absolute;
+    height:100%;
+    width:100%;
+    background: rgba(255,255,255,1);
+    z-index:99999;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list_wrapper {
+    width:100%;
+    height:100%;
+    background: #F1F2F6;
+    box-shadow:         inset 19px 0px 23px -13px rgba(50, 50, 50, 0.09);
+    border-right: 2px solid #e7e9f0;
+}
+
+.list_item {
+    width:100%;
+    outline: 1px solid #e7e9f0;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 20px 20px 90px;
+}
+
+.list_item_active {
+    background: #fff;
+    outline: 1px solid #e7e9f0;
+    box-shadow: 0px 6px 29px 0 rgba(201, 211, 246, 0.48);
+}
+
+.letter_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.letter_author_avatar img {
+    width: 90px;
+    height: auto;
+}
+
+.category_item {
+    background: #fff;
+    padding-left: 20px;
+
+}
+
+.category_item:hover {
+    cursor: pointer;
+}
+
+.category_item_uk {
+    border-left:10px solid #a667e0;
+}
+
+.category_item_payments {
+    border-left:10px solid #0072bc;
+}
