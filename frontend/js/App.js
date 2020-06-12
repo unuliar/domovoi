@@ -43,9 +43,10 @@ app.run(function ($rootScope, $http, $cookies) {
      * @param onSuccess
      */
     $rootScope.apiCall = (method, url, data, onSuccess) => {
+        const token = $cookies.get('token');
         $http({
             method: method,
-            url: `${$rootScope.api_path}/${url}`,
+            url: `${$rootScope.api_path}/${url}?token=${token}`,
             params: data
         }).then(onSuccess)
     };
@@ -54,7 +55,7 @@ app.run(function ($rootScope, $http, $cookies) {
      * Checking authorization state
      */
     $rootScope.checkAuth = () => {
-        const token = $cookies.get('auth_token');
+        const token = $cookies.get('token');
 
         $rootScope.apiCall(
             'POST',
