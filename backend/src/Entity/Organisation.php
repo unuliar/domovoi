@@ -82,7 +82,7 @@ class Organisation
     /**
      * @ORM\Column(type="integer")
      */
-    private $claimsCount;
+    private $claimsCount = 0;
 
 
     /**
@@ -105,9 +105,15 @@ class Organisation
      */
     private $rootObjId;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Account::class, mappedBy="Org")
+     */
+    private $workers;
+
     public function __construct()
     {
         $this->houses = new ArrayCollection();
+        $this->workers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -334,6 +340,37 @@ class Organisation
     public function setRootObjId(?string $rootObjId): self
     {
         $this->rootObjId = $rootObjId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Account[]
+     */
+    public function getWorkers(): Collection
+    {
+        return $this->workers;
+    }
+
+    public function addWorker(Account $worker): self
+    {
+        if (!$this->workers->contains($worker)) {
+            $this->workers[] = $worker;
+            $worker->setOrg($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorker(Account $worker): self
+    {
+        if ($this->workers->contains($worker)) {
+            $this->workers->removeElement($worker);
+            // set the owning side to null (unless already changed)
+            if ($worker->getOrg() === $this) {
+                $worker->setOrg(null);
+            }
+        }
 
         return $this;
     }

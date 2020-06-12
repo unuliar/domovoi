@@ -81,7 +81,15 @@ class GisGkhCron extends Command
                 $org->setLicenseDate(new \DateTime($data["licenses"][0]["licenseDate"]));
                 $org->setSvcPhones($data["detailInfo"]["dispatchingServicePhones"]);
                 $org->setRejectedHousesCount(0);
+            try {
                 $org->setClaimsCount(count($api->getOrgViolationsByRoot($root)["administrationViolationList"]));
+            }catch (\Exception $e) {
+          /*      if(strpos($e->getMessage(), "Time-out") === false && strpos($e->getMessage(), "timeout") === false) {
+                    throw $e;
+                }*/
+                $output->write("failed getting violations" . "\n\n");
+            }
+
 
 
                 $houses = $api->getOrgHouses($root, true);
@@ -105,7 +113,6 @@ class GisGkhCron extends Command
                         $h->setResidentalPremiseCount((int) ($houseData["info"]["residentialPremiseCount"] ?? 0));
                         $h->setResidentialPremiseTotalSquare((int)($houseData["info"]["residentialPremiseTotalSquare"] ?? 0));
                         $h->setOrg($org);
-                      //  $output->write($h->getResidentalPremiseCount() . "\n\n");
                     }
                     $this->entityManager->persist($h);
 

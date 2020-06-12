@@ -54,9 +54,15 @@ class House
      */
     private $personClaims;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Meeting::class, mappedBy="house", orphanRemoval=true)
+     */
+    private $meetings;
+
     public function __construct()
     {
         $this->personClaims = new ArrayCollection();
+        $this->meetings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,6 +167,37 @@ class House
             // set the owning side to null (unless already changed)
             if ($personClaim->getHouse() === $this) {
                 $personClaim->setHouse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Meeting[]
+     */
+    public function getMeetings(): Collection
+    {
+        return $this->meetings;
+    }
+
+    public function addMeeting(Meeting $meeting): self
+    {
+        if (!$this->meetings->contains($meeting)) {
+            $this->meetings[] = $meeting;
+            $meeting->setHouse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMeeting(Meeting $meeting): self
+    {
+        if ($this->meetings->contains($meeting)) {
+            $this->meetings->removeElement($meeting);
+            // set the owning side to null (unless already changed)
+            if ($meeting->getHouse() === $this) {
+                $meeting->setHouse(null);
             }
         }
 

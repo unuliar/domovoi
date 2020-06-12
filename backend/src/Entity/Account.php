@@ -60,26 +60,48 @@ class Account
     private $house;
 
     /**
-     * @ORM\OneToMany(targetEntity=Letter::class, mappedBy="fromAcc")
-     */
-    private $letters;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Letter::class, mappedBy="toAcc")
-     */
-    private $recievedLetters;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Notification::class, mappedBy="targets")
      */
     private $notifications;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Letter::class, mappedBy="creator", orphanRemoval=true)
+     */
+    private $createdLetters;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Letter::class, mappedBy="reciever", orphanRemoval=true)
+     */
+    private $recievedLetters;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Letter::class, mappedBy="signedAccounts")
+     */
+    private $signedLetters;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Meeting::class, mappedBy="Participants")
+     */
+    private $meetings;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type = "OWNER";
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Organisation::class, inversedBy="workers")
+     */
+    private $Org;
+
     public function __construct()
     {
         $this->house = new ArrayCollection();
-        $this->letters = new ArrayCollection();
-        $this->recievedLetters = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->createdLetters = new ArrayCollection();
+        $this->recievedLetters = new ArrayCollection();
+        $this->signedLetters = new ArrayCollection();
+        $this->meetings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,68 +222,6 @@ class Account
     }
 
     /**
-     * @return Collection|Letter[]
-     */
-    public function getLetters(): Collection
-    {
-        return $this->letters;
-    }
-
-    public function addLetter(Letter $letter): self
-    {
-        if (!$this->letters->contains($letter)) {
-            $this->letters[] = $letter;
-            $letter->setFromAcc($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLetter(Letter $letter): self
-    {
-        if ($this->letters->contains($letter)) {
-            $this->letters->removeElement($letter);
-            // set the owning side to null (unless already changed)
-            if ($letter->getFromAcc() === $this) {
-                $letter->setFromAcc(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Letter[]
-     */
-    public function getRecievedLetters(): Collection
-    {
-        return $this->recievedLetters;
-    }
-
-    public function addRecievedLetter(Letter $recievedLetter): self
-    {
-        if (!$this->recievedLetters->contains($recievedLetter)) {
-            $this->recievedLetters[] = $recievedLetter;
-            $recievedLetter->setToAcc($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRecievedLetter(Letter $recievedLetter): self
-    {
-        if ($this->recievedLetters->contains($recievedLetter)) {
-            $this->recievedLetters->removeElement($recievedLetter);
-            // set the owning side to null (unless already changed)
-            if ($recievedLetter->getToAcc() === $this) {
-                $recievedLetter->setToAcc(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Notification[]
      */
     public function getNotifications(): Collection
@@ -288,4 +248,147 @@ class Account
 
         return $this;
     }
+
+    /**
+     * @return Collection|Letter[]
+     */
+    public function getCreatedLetters(): Collection
+    {
+        return $this->createdLetters;
+    }
+
+    public function addCreatedLetter(Letter $createdLetter): self
+    {
+        if (!$this->createdLetters->contains($createdLetter)) {
+            $this->createdLetters[] = $createdLetter;
+            $createdLetter->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedLetter(Letter $createdLetter): self
+    {
+        if ($this->createdLetters->contains($createdLetter)) {
+            $this->createdLetters->removeElement($createdLetter);
+            // set the owning side to null (unless already changed)
+            if ($createdLetter->getCreator() === $this) {
+                $createdLetter->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Letter[]
+     */
+    public function getRecievedLetters(): Collection
+    {
+        return $this->recievedLetters;
+    }
+
+    public function addRecievedLetter(Letter $recievedLetter): self
+    {
+        if (!$this->recievedLetters->contains($recievedLetter)) {
+            $this->recievedLetters[] = $recievedLetter;
+            $recievedLetter->setReciever($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecievedLetter(Letter $recievedLetter): self
+    {
+        if ($this->recievedLetters->contains($recievedLetter)) {
+            $this->recievedLetters->removeElement($recievedLetter);
+            // set the owning side to null (unless already changed)
+            if ($recievedLetter->getReciever() === $this) {
+                $recievedLetter->setReciever(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Letter[]
+     */
+    public function getSignedLetters(): Collection
+    {
+        return $this->signedLetters;
+    }
+
+    public function addSignedLetter(Letter $signedLetter): self
+    {
+        if (!$this->signedLetters->contains($signedLetter)) {
+            $this->signedLetters[] = $signedLetter;
+            $signedLetter->addSignedAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSignedLetter(Letter $signedLetter): self
+    {
+        if ($this->signedLetters->contains($signedLetter)) {
+            $this->signedLetters->removeElement($signedLetter);
+            $signedLetter->removeSignedAccount($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Meeting[]
+     */
+    public function getMeetings(): Collection
+    {
+        return $this->meetings;
+    }
+
+    public function addMeeting(Meeting $meeting): self
+    {
+        if (!$this->meetings->contains($meeting)) {
+            $this->meetings[] = $meeting;
+            $meeting->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMeeting(Meeting $meeting): self
+    {
+        if ($this->meetings->contains($meeting)) {
+            $this->meetings->removeElement($meeting);
+            $meeting->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getOrg(): ?Organisation
+    {
+        return $this->Org;
+    }
+
+    public function setOrg(?Organisation $Org): self
+    {
+        $this->Org = $Org;
+
+        return $this;
+    }
+
 }
