@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\HouseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,12 +22,12 @@ class House
     /**
      * @ORM\Column(type="integer")
      */
-    private $residentalPremiseCount;
+    private $residentalPremiseCount = 0;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $residentialPremiseTotalSquare;
+    private $residentialPremiseTotalSquare = 0;
 
     /**
      * @ORM\Column(type="integer")
@@ -35,7 +37,7 @@ class House
     /**
      * @ORM\Column(type="string", length=1024)
      */
-    private $address;
+    private $address = "";
 
     /**
      * @ORM\ManyToOne(targetEntity=Organisation::class, inversedBy="houses")
@@ -46,6 +48,16 @@ class House
      * @ORM\Column(type="string", length=255, nullable=true, unique=true)
      */
     private $guid;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PersonClaim::class, mappedBy="house")
+     */
+    private $personClaims;
+
+    public function __construct()
+    {
+        $this->personClaims = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +132,37 @@ class House
     public function setGuid(?string $guid): self
     {
         $this->guid = $guid;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PersonClaim[]
+     */
+    public function getPersonClaims(): Collection
+    {
+        return $this->personClaims;
+    }
+
+    public function addPersonClaim(PersonClaim $personClaim): self
+    {
+        if (!$this->personClaims->contains($personClaim)) {
+            $this->personClaims[] = $personClaim;
+            $personClaim->setHouse($this);
+        }
+
+        return $this;
+    }
+
+    public function removePersonClaim(PersonClaim $personClaim): self
+    {
+        if ($this->personClaims->contains($personClaim)) {
+            $this->personClaims->removeElement($personClaim);
+            // set the owning side to null (unless already changed)
+            if ($personClaim->getHouse() === $this) {
+                $personClaim->setHouse(null);
+            }
+        }
 
         return $this;
     }

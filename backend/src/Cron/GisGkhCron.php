@@ -9,6 +9,7 @@ use App\Cron\Gis\FactualAddress;
 use App\Entity\House;
 use App\Entity\Organisation;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -27,7 +28,9 @@ class GisGkhCron extends Command
 
     public function __construct(EntityManagerInterface $entityManager)
     {
+        (new Dotenv())->bootEnv(dirname(__DIR__).'/../.env2');
         $this->entityManager = $entityManager;
+
 
         parent::__construct();
     }
@@ -54,6 +57,9 @@ class GisGkhCron extends Command
         $ids = $api->getOrenOrgGuids();
 
         foreach ($ids as $k =>  $id) {
+            if($k < 41) {
+                continue;
+            }
 
                 $org = new Organisation();
                 $root = $api->getOrgRootIdByGuid($id);
@@ -92,12 +98,14 @@ class GisGkhCron extends Command
                     $h = new House();
                     $h->setGuid($working["guid"]);
                     $h->setAddress($working["address"]);
+                    $h->setBuildingYear(0);
                     if(trim($working["guid"]) != '') {
                         $houseData = $api->getHouseByGuid($working["guid"]);
                         $h->setBuildingYear((int)$houseData["info"]["buildingYear"]);
-                        $h->setResidentalPremiseCount((int)$houseData["info"]["residentialPremiseCount"]);
-                        $h->setResidentialPremiseTotalSquare((int)$houseData["info"]["residentialPremiseTotalSquare"]);
+                        $h->setResidentalPremiseCount((int) ($houseData["info"]["residentialPremiseCount"] ?? 0));
+                        $h->setResidentialPremiseTotalSquare((int)($houseData["info"]["residentialPremiseTotalSquare"] ?? 0));
                         $h->setOrg($org);
+                      //  $output->write($h->getResidentalPremiseCount() . "\n\n");
                     }
                     $this->entityManager->persist($h);
 
