@@ -6,7 +6,7 @@ ADD . /var/www/backend
 
 # Удаляем конфиги сайтов которые там есть
 RUN rm -Rf /etc/nginx/sites-enabled/*
-RUN docker-php-ext-install pdo_pgsql
+#RUN docker-php-ext-install pdo_pgsql
 
 # Добавляем наш конфиг
 ADD docker/backend/conf/nginx/site.conf /etc/nginx/sites-available/site.conf

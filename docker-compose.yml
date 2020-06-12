@@ -46,7 +46,7 @@ services:
       # Так же линкуем конфиг для nginx
       - "./docker/frontend/conf/nginx:/etc/nginx/sites-available"
   db:
-    image: mysql:latest
+    image: mysql:5.7
     # Подключаем к общей сети с другими контейнерами
     networks:
       - default
@@ -62,4 +62,14 @@ services:
       DB_PATH_HOST: /tmp/mysql
     # Линкуем внешнюю папку для хранения БД
     volumes:
-      - "./database:/var/lib/mysql"
+      - "./database:/var/lib/mysql2"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    networks:
+      - default
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    ports:
+      - "88:80"
