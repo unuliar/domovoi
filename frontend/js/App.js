@@ -34,6 +34,8 @@ app.run(function ($rootScope, $http, $cookies) {
 
     $rootScope.pageTitle = "Главная";
 
+    $rootScope.loaderState = false;
+
     /**
      * Calling API
      *
@@ -57,19 +59,27 @@ app.run(function ($rootScope, $http, $cookies) {
     $rootScope.checkAuth = () => {
         const token = $cookies.get('token');
 
-        $rootScope.apiCall(
-            'POST',
-            'auth/check-token',
-            {
-                token: token
-            },
-            (result) => {
-                if(!result.data.status) {
-                    window.location.href = '#!/login';
+        if(token !== undefined) {
+            $rootScope.apiCall(
+                'POST',
+                'auth/check-token',
+                {
+                    token: token
+                },
+                (result) => {
+                    if (!result.data.status) {
+                        window.location.href = 'login.html';
 
-                    return 0;
+                        return 0;
+                    }
                 }
-            }
-        );
+            );
+        } else {
+            window.location.href = 'login.html';
+        }
     };
+
+    $rootScope.setLoader = (state) => {
+        $rootScope.loaderState = state;
+    }
 });

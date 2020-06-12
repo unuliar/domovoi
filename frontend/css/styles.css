@@ -118,6 +118,10 @@ a:hover {
     justify-content: center;
 }
 
+.person_avatar img {
+    border-radius: 50%;
+}
+
 .person_info {
     margin-top: 10px;
     display: flex;
@@ -154,6 +158,12 @@ a:hover {
     flex-direction: column;
 }
 
+.sidebar__exit {
+    position: absolute;
+    bottom:10px;
+    left: 20%
+}
+
 .sidebar__nav .nav span{
     font-family: Jost;
     font-size: 16px;
@@ -163,10 +173,14 @@ a:hover {
     line-height: 1.89;
     letter-spacing: 0.48px;
     color: #8d91a1;
+    font-size:18px;
+    margin-bottom: 10px;
 }
 
 .sidebar__nav a {
     color: #8d91a1;
+
+    font-size:18px;
 }
 
 .sidebar__nav a:hover {
@@ -211,7 +225,7 @@ a:hover {
     height:100%;
     width:100%;
     background: rgba(255,255,255,1);
-    z-index:99999;
+    z-index:9999999999999999;
     display:flex;
     justify-content: center;
     align-items: center;

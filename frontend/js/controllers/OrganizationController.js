@@ -1,5 +1,10 @@
 app.controller('OrganizationController', function ($scope, $rootScope) {
+    $rootScope.checkAuth();
+
+
     $scope.currentOrg = null;
+
+    $rootScope.setLoader(true);
 
     $rootScope.apiCall(
         'GET',
@@ -8,6 +13,7 @@ app.controller('OrganizationController', function ($scope, $rootScope) {
         (result) => {
             if(result.data.status === 'ok') {
                 $scope.currentOrg = result.data.org;
+                $rootScope.setLoader(false);
             }
         }
     );
