@@ -134,7 +134,7 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
         $this->em->flush();
 
         $response = new RedirectResponse($this->getParameter("FRONT_URL"));
-        $cookie = new Cookie('token', $tokenRes["access_token"], time()+36000);
+        $cookie = new Cookie('token', $tokenRes["access_token"], time()+36000, "/", null, null, false);
         $response->headers->setCookie($cookie);
 
         return $response;
