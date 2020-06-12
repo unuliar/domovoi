@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\Account;
 
+use App\Entity\AccountPollResult;
 use App\Entity\House;
 use App\Entity\Meeting;
 use App\Entity\MeetingQuestion;
@@ -100,6 +101,61 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
         $meetings = $meetRep->findBy(["house" => $ids]);
 
         return $this->handleView($this->view(['status' => 'ok', 'meetings' => $meetings]));
+    }
+
+    /**
+     * @Rest\Post("/api/meeting/vote")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    public function postVote(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $data = $request->request->all();
+        $polRe = $this->getDoctrine()->getRepository(Poll::class);
+        $accRe = $this->getDoctrine()->getRepository(Account::class);
+
+        /** @var Poll $poll */
+        $poll = $polRe->findOneBy(["id" => $data["poll"]]);
+
+        /** @var Account $user */
+        $user = $accRe->findOneBy(["id" => $data["user"]]);
+
+        $pollRes = new AccountPollResult();
+        $pollRes->setPoll($poll);
+        $pollRes->setAccount($user);
+        $pollRes->setResult((int)$data["vote"]);
+
+
+        $this->em->persist($pollRes);
+        $this->em->flush();
+        return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
+    }
+
+    /**
+     * @Rest\Post("/api/meeting/confirmParticipation")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    public function postParticipation(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $data = $request->request->all();
+        $meetingRep = $this->getDoctrine()->getRepository(Meeting::class);
+        $accRe = $this->getDoctrine()->getRepository(Account::class);
+
+        /** @var Meeting $meeting */
+        $meeting = $meetingRep->findOneBy(["id" => $data["meeting"]]);
+
+        /** @var Account $user */
+        $user = $accRe->findOneBy(["id" => $data["user"]]);
+
+        $meeting->addParticipant($user);
+        $this->em->persist($meeting);
+        $this->em->flush();
+        return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
     }
 
 

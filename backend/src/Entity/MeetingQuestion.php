@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MeetingQuestionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,6 +39,16 @@ class MeetingQuestion
      * @ORM\JoinColumn(nullable=false)
      */
     private $meeting;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Attachment::class, mappedBy="meetingQuestion")
+     */
+    private $attachments;
+
+    public function __construct()
+    {
+        $this->attachments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -87,6 +99,37 @@ class MeetingQuestion
     public function setMeeting(?Meeting $meeting): self
     {
         $this->meeting = $meeting;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Attachment[]
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachment(Attachment $attachment): self
+    {
+        if (!$this->attachments->contains($attachment)) {
+            $this->attachments[] = $attachment;
+            $attachment->setMeetingQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachment(Attachment $attachment): self
+    {
+        if ($this->attachments->contains($attachment)) {
+            $this->attachments->removeElement($attachment);
+            // set the owning side to null (unless already changed)
+            if ($attachment->getMeetingQuestion() === $this) {
+                $attachment->setMeetingQuestion(null);
+            }
+        }
 
         return $this;
     }
