@@ -33,7 +33,7 @@ class Meeting
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $status;
+    private $status = "PENDING";
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -45,10 +45,21 @@ class Meeting
      */
     private $meetingQuestions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ChatMessage::class, mappedBy="meeting", orphanRemoval=true)
+     */
+    private $chatMessages;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $plannedEndDate;
+
     public function __construct()
     {
         $this->Participants = new ArrayCollection();
         $this->meetingQuestions = new ArrayCollection();
+        $this->chatMessages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,6 +156,49 @@ class Meeting
                 $meetingQuestion->setMeeting(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ChatMessage[]
+     */
+    public function getChatMessages(): Collection
+    {
+        return $this->chatMessages;
+    }
+
+    public function addChatMessage(ChatMessage $chatMessage): self
+    {
+        if (!$this->chatMessages->contains($chatMessage)) {
+            $this->chatMessages[] = $chatMessage;
+            $chatMessage->setMeeting($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChatMessage(ChatMessage $chatMessage): self
+    {
+        if ($this->chatMessages->contains($chatMessage)) {
+            $this->chatMessages->removeElement($chatMessage);
+            // set the owning side to null (unless already changed)
+            if ($chatMessage->getMeeting() === $this) {
+                $chatMessage->setMeeting(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPlannedEndDate(): ?\DateTimeInterface
+    {
+        return $this->plannedEndDate;
+    }
+
+    public function setPlannedEndDate(?\DateTimeInterface $plannedEndDate): self
+    {
+        $this->plannedEndDate = $plannedEndDate;
 
         return $this;
     }

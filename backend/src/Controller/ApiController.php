@@ -2,8 +2,14 @@
 
 namespace App\Controller;
 use App\Entity\Account;
+
 use App\Entity\House;
+use App\Entity\Meeting;
+use App\Entity\MeetingQuestion;
+use App\Entity\Organisation;
 use App\Entity\PersonClaim;
+use App\Entity\Poll;
+use App\Entity\Post;
 use App\Repository\HouseRepository;
 use App\Vk\Api;
 use Symfony\Component\HttpClient\HttpClient;
@@ -11,6 +17,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\User\User;
 
 class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
@@ -20,6 +27,34 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
     public function __construct(\Doctrine\ORM\EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
+    }
+
+    /**
+     * @Rest\Post("/api/post/create")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function postPost(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $data = $request->request->all();
+        $rOrg = $this->getDoctrine()->getRepository(Organisation::class);
+        $rUser = $this->getDoctrine()->getRepository(Account::class);
+
+        /** @var Organisation $org */
+        $org = $data["org"] != null ? $rOrg->findOneBy(["id" => $data["org"]]) : null;
+        /** @var Account $creator */
+        $creator = $rUser->findOneBy(["id" => $data["user"]]);
+
+        $post = new Post();
+        $post->setOrg($org);
+        $post->setContent($data["content"]);
+        $post->setCreated(new \DateTime());
+        $post->setCreator($creator);
+        $this->em->persist($post);
+        $this->em->flush();
+
+        return $this->handleView($this->view(['status' => 'ok', 'id' => $post->getId()], Response::HTTP_CREATED));
     }
 
     /**
@@ -44,6 +79,70 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
             return $this->handleView($this->view(['status' => 'error', 'descr' => "unathorized"], Response::HTTP_NOT_FOUND));
         }
 
+    }
+
+    /**
+     * @Rest\Get("/api/meeting/getAllByOrg")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response
+     */
+    public function getMeetsByOrg(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $org = $request->get("org");
+        $meetRep = $this->getDoctrine()->getRepository(Meeting::class);
+        $houseRep = $this->getDoctrine()->getRepository(House::class);
+        /** @var House[] $houses */
+        $houses = $houseRep->findBy(["org" =>$org]);
+        $ids = [];
+        foreach ($houses as $h) {
+            $ids [] = $h->getId();
+        }
+        $meetings = $meetRep->findBy(["house" => $ids]);
+
+        return $this->handleView($this->view(['status' => 'ok', 'meetings' => $meetings]));
+    }
+
+
+    /**
+     * @Rest\Post("/api/meeting/create")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    public function postMeeting(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $data = $request->request->all();
+
+        $data["plannedDate"] =  new \DateTime($request->get('plannedDate')) ?? new \DateTime();
+        $data["plannedEndDate"] =  new \DateTime($request->get('plannedEndDate')) ?? new \DateTime("12.12.2099");
+
+        $houseRep = $this->getDoctrine()->getRepository(House::class);
+        /** @var House $house */
+        $house = $houseRep->findOneBy(["id" => $data["house"]]);
+
+        $data["house"] = $house;
+
+
+
+
+        $rep = $this->getDoctrine()->getRepository(Meeting::class);
+        /** @var Meeting $result */
+        $result = $rep->createByArray($data);
+        $this->em->persist($result);
+
+        foreach ($data["meetingQuestions"] as $question) {
+            $q = new MeetingQuestion();
+            $q->setBody($question["body"]);
+            $q->setMeeting($result);
+            $q->setPoll($question["poll"] ? new Poll() : null);
+            $q->setSubject($question["subject"]);
+            $this->em->persist($q);
+        }
+
+
+        $this->em->flush();
+        return $this->handleView($this->view(['status' => 'ok', 'id' => $result->getId()], Response::HTTP_CREATED));
     }
 
     /**
@@ -103,19 +202,19 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
         $tokenRes = $vkApi->getAuthToken($code);
         $userData = $vkApi->getUserData($tokenRes["access_token"])["response"][0];
 
-       // return $this->handleView($this->view(['status' => 'ok', 'result' => $userData]));
+        // return $this->handleView($this->view(['status' => 'ok', 'result' => $userData]));
         $userRep = $this->getDoctrine()->getRepository(Account::class);
         /** @var Account $existing */
         $existing = $userRep->findOneBy(["vkId" => $userData["id"]]);
         if(!$existing) {
             $existing = new Account();
             $existing->setVkToken($tokenRes["access_token"])
-            ->setCity($userData["city"]["title"])
-            ->setVkId($userData["id"])
-            ->setFirstName($userData["first_name"])
-            ->setLastName($userData["last_name"])
-            ->setPhotoUrl($userData["photo_100"])
-            ->setBirthDate(new \DateTime($userData["bdate"]));
+                ->setCity($userData["city"]["title"])
+                ->setVkId($userData["id"])
+                ->setFirstName($userData["first_name"])
+                ->setLastName($userData["last_name"])
+                ->setPhotoUrl($userData["photo_100"])
+                ->setBirthDate(new \DateTime($userData["bdate"]));
 
             $p = mt_rand(1,9);
             $claim = new PersonClaim();
