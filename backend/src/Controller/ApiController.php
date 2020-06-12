@@ -47,6 +47,26 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
     }
 
     /**
+     * @Rest\Get("/api/token/check")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response
+     */
+    public function getTokenValid(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $token = $request->get("token");
+
+        $vkApi = new Api($this->getParameter("VK_SECRET"),$this->getParameter("BACK_URL"));
+        $userData = $vkApi->getUserData($token);
+
+        if(isset($userData) && isset($userData["response"]) && isset($userData[0]) && trim($userData[0]["id"]) != '') {
+            return $this->handleView($this->view(['status' => 'ok', 'result' => true]));
+        } else {
+            return $this->handleView($this->view(['status' => 'ok', 'result' => false]));
+        }
+
+    }
+
+    /**
      * @Rest\Get("/api/user/getByToken")
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return Response
