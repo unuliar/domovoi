@@ -22,7 +22,7 @@
 /*    src: url('../fonts/Jost-Bold.ttf');*/
 /*}*/
 
-html, body , .row, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .container-fluid  {
+html, body , .row, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .container-fluid  {
     margin:0;
     padding: 0;
 }
@@ -97,6 +97,7 @@ a:hover {
 .sidebar {
     border-right: 2px solid #e7e9f0;
     height:100%;
+    width:16.7%;
 }
 
 .sidebar__header {
@@ -400,17 +401,114 @@ button:focus {
 }
 
 
+.wrapper {
+    padding:36px;
 
+}
 
+.uk_data {
+    border-radius: 12px;
+    border: solid 1px #d6d7dc;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
 
+.uk_data .left-side img {
+    border-radius: 50%;
+}
 
+.uk_data .left-side {
+    display: flex;
+    align-items: center;
+}
 
+.uk_data .left-side p {
+    padding:0;
+    margin:0;
 
+    color: #969aa8;
+}
 
+.uk_data .left-side p span {
+    color: #70737e;
+    font-weight:600;
+}
 
+.uk_data .center {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
 
+.uk_data .right-side {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+}
 
+.uk_news {
+    border-radius: 12px;
+    border: solid 1px #d6d7dc;
+    padding: 10px;
+    margin-bottom: 30px;
+}
 
+.uk_news h4 {
+    margin:0;
+}
+
+.news_avatar {
+    width: 80px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.news_meta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.uk_news p {
+    padding: 15px;
+    font-family: Jost;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+    text-align: justify;
+    color: #7c7c8a;
+}
+
+.uk_contacts {
+    border-radius: 12px;
+    border: solid 1px #d6d7dc;
+    padding: 20px;
+}
+.uk_contacts ul {
+    font-family: Jost;
+    font-weight: 600;
+    padding: 0;
+    margin:0;
+}
+
+.uk_contacts ul li {
+    list-style: none;
+}
+
+.uk_contacts ul li {
+    color: #5a5c66;
+}
+
+.uk_contacts ul li span {
+    color: #969aa8;
+    font-weight: 400;
+
+}
 
 
 
