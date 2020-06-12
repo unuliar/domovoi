@@ -1,7 +1,6 @@
 app.controller('OrganizationController', function ($scope, $rootScope) {
     $rootScope.checkAuth();
 
-
     $scope.currentOrg = null;
 
     $rootScope.setLoader(true);

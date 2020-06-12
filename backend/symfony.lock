@@ -159,7 +159,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.2"
+        "version": "7.3"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -343,6 +343,9 @@
     },
     "willdurand/negotiation": {
         "version": "v2.3.1"
+    },
+    "workerman/workerman": {
+        "version": "v4.0.6"
     },
     "zendframework/zend-code": {
         "version": "3.4.1"

@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "701040b7baa481091d3138f5cce5e603",
+    "content-hash": "65b37e34b7bef773c06c2fa37387cc14",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -5183,6 +5183,52 @@
             "time": "2017-05-14T17:21:12+00:00"
         },
         {
+            "name": "workerman/workerman",
+            "version": "v4.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/walkor/Workerman.git",
+                "reference": "14964ed1f3655e10f8bd0bd45e78fb75104fc9cf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/walkor/Workerman/zipball/14964ed1f3655e10f8bd0bd45e78fb75104fc9cf",
+                "reference": "14964ed1f3655e10f8bd0bd45e78fb75104fc9cf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "suggest": {
+                "ext-event": "For better performance. "
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Workerman\\": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "walkor",
+                    "email": "walkor@workerman.net",
+                    "homepage": "http://www.workerman.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "An asynchronous event driven PHP framework for easily building fast, scalable network applications.",
+            "homepage": "http://www.workerman.net",
+            "keywords": [
+                "asynchronous",
+                "event-loop"
+            ],
+            "time": "2020-06-12T16:21:56+00:00"
+        },
+        {
             "name": "zendframework/zend-code",
             "version": "3.4.1",
             "source": {
@@ -5428,5 +5474,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

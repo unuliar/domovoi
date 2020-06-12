@@ -1,4 +1,6 @@
 app.controller('LetterController', function ($scope, $rootScope) {
+    $rootScope.checkAuth();
+
     $rootScope.pageTitle = "Коллективные письма";
 
     $scope.activeLetter = null;

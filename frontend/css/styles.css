@@ -224,7 +224,7 @@ a:hover {
     position: absolute;
     height:100%;
     width:100%;
-    background: rgba(255,255,255,1);
+    background: rgba(255,255,255,.8);
     z-index:9999999999999999;
     display:flex;
     justify-content: center;
@@ -525,6 +525,196 @@ button:focus {
 }
 
 
+.module_card {
+    width:100%;
+    height:100%;
 
+    border-radius: 12px;
+    padding:26px;
+    padding-top:15px;
+    color:#fff;
 
+    font-family: Jost;
 
+    display: flex;
+    flex-direction: column;
+
+    transition: all ease-in-out .2s;
+}
+
+.module_card_icon {
+    font-size: 40px;
+    height:50px;
+}
+
+.module_card_heading {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.module_card_meeting {
+    box-shadow: 0px 13px 21px 0 rgba(60, 114, 212, 0.36);
+    background-image: linear-gradient(120deg, rgba(57, 193, 231,.9), rgba(47, 114, 225,.9)) , url('../img/card_bg/mkd.png');
+    background-size: cover;
+}
+
+.module_card_jkh {
+    box-shadow: 0px 13px 21px 0 rgba(207, 134, 49, 0.36);
+    background-image: linear-gradient(120deg, rgba(231, 188, 56, .9), rgba(222, 143, 49, .9)), url('../img/card_bg/jkh.jpg');
+    background-size: cover;
+}
+
+.module_card_org {
+    box-shadow: 0px 13px 21px 0 rgba(141, 48, 186, 0.36);
+    background-image: linear-gradient(120deg, rgba(217, 57, 148, .9), rgba(144, 49, 190, .9)), url('../img/card_bg/org.jpg');
+    background-size: cover;
+}
+
+.module_card_claims {
+    box-shadow: 0px 13px 21px 0 rgba(22, 155, 27, 0.36);
+    background-image: linear-gradient(120deg, rgba(51, 167, 115, .9), rgba(15, 157, 20, .9)), url('../img/card_bg/claim.jpg');
+    background-size: cover;
+}
+
+.module_card_services {
+    box-shadow: 0px 13px 21px 0 rgba(152, 76, 25, 0.36);
+    background-image: linear-gradient(120deg, rgba(167, 130, 51, .9), rgba(157, 72, 15, .9)), url("../img/card_bg/service.jpg");
+    background-size: cover;
+}
+
+.module_card_messages {
+    box-shadow: 0px 13px 21px 0 rgba(40, 25, 152, 0.36);
+    background-image: linear-gradient(120deg, rgba(50, 82, 202, .9), rgba(158, 0, 248, .9)), url("../img/card_bg/messaging.jpg");
+    background-size: cover;
+}
+
+.module_card_rating {
+    box-shadow: 0px 13px 21px 0 rgba(100, 100, 100, 0.36);
+    background-image: linear-gradient(120deg, rgba(83, 83, 83, .9), rgba(163, 163, 163, .9)), url("../img/card_bg/rating.jpeg");
+    background-size: cover;
+}
+
+.module_card:hover {
+    opacity: .9;
+    transform: scale(1.02,1.02);
+    cursor: pointer;
+}
+
+.chat_wrapper {
+    background-image: url("../img/chat_bg.png");
+    background-repeat: repeat;
+    background-size: 70%;
+    position: relative;
+    overflow-y: auto;
+}
+
+.message_box_wrapper {
+    padding: 12px;
+
+}
+
+.message_box {
+    border-radius: 20px;
+    border:1px solid #ccc;
+    width:100%;
+    height: 40px;
+    background: #fff;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.message_box input {
+    border:none;
+}
+
+.message_box input:focus, button:focus {
+    outline: none;
+}
+
+.message_box button {
+    background: none;
+    border:none;
+    font-size: 19px;
+    color: #7c7c8a;
+}
+
+.chat-message {
+    margin-top: 7px;
+}
+
+.chat-data {
+    display: flex;
+}
+
+.chat-message-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background-size: cover;
+    align-self: flex-end;
+    margin-right: 9px;
+}
+
+.chat-bubble {
+    max-width: 80%;
+    border-radius: 10px 10px 10px 0;
+    background: #1462b5;
+    box-shadow: 0px 3px 5px 0px rgba(120, 162, 235, 0.4);
+    padding: 10px;
+    display: inline-block;
+    word-break: break-word;
+    border: 1px solid #143c77;
+    color: #fff;
+}
+
+.chat-message-time {
+    margin-left: 39px;
+    font-size: 12px;
+    color: #848484;
+}
+
+/*
+    Outcoming message styles
+ */
+
+.outcoming .chat-data {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.outcoming .chat-message-avatar {
+    margin-right: 0;
+    margin-left: 9px;
+}
+
+.outcoming .chat-message-time {
+    text-align: right;
+    margin-right: 39px;
+}
+
+.outcoming .chat-bubble {
+    background: #fff;
+    border: 1px solid #e4e4e4;
+    box-shadow: 0px 3px 5px 0px rgba(191, 191, 191, 0.29);
+
+    border-radius: 10px 10px 0 10px;
+    color: #000;
+}
+
+.messages {
+    height:90%;
+    padding: 20px;
+    overflow: auto;
+}
+
+.poll_item {
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.poll_item .base_button {
+    padding: 12px;
+    font-size: 11px;
+    line-height:12px;
+}

@@ -1,0 +1,72 @@
+<div class="row w-100 " ng-controller="MeetingsRoomController">
+    <div class="col-md-4 " style="height:91.6vh">
+        <div class="list_wrapper chat_wrapper ">
+            <div class="messages">
+                <div ng-repeat="message in messages">
+                    <div class="chat-message" ng-class="{'outcoming': currentUser.id == message.user.id}">
+                        <div class="chat-data">
+                            <div class="chat-message-avatar"
+                                 style="background-image: url({{message.user.photo_url}})"></div>
+                            <div class="chat-bubble">
+                                {{ message.msg }}
+                            </div>
+                        </div>
+                        <div class="chat-message-time">
+                            <span>{{ message.time }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message_box_wrapper">
+                <div class="message_box">
+                    <input type="text" id="chatbox" ng-model="messageBox" style="width:80%;">
+                    <button style="width:8%;"><i class="fa fa-paperclip" aria-hidden="true"></i></button>
+                    <button style="width:8%;" ng-click="sendMessage()"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8" style="height: 91.6vh; overflow: auto">
+        <div class="letter_wrapper">
+            <h1>{{ currentMeeting.title }}</h1>
+            <time><i class="fa fa-clock-o"></i> {{ currentMeeting.date }}</time>
+
+            <p>{{ currentMeeting.text }}</p>
+
+            <div style="padding: 34px 0" ng-if="currentMeeting.polls.length > 0">
+                <hr>
+                <h4>ПОВЕСТКА ДНЯ</h4>
+                <div style="padding:34px;">
+
+                    <div ng-repeat="poll in currentMeeting.polls">
+                        <div class="poll_item">
+                            <div class="row">
+                                <div class="col-md-12"><span>{{ poll.question }}</span></div>
+
+                            </div>
+                            <div class="row mt-2">
+                                <button class="base_button success_button mr-2">ПОДДЕРЖИВАЮ</button>
+                                <button class="base_button danger_button mr-2">НЕ ПОДДЕРЖИВАЮ</button>
+                                <button class="base_button primary_button">ВОЗДЕРЖУСЬ ОТ ОТВЕТА</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <hr>
+            <div style="padding: 5px 0">
+                <div style="padding:10px 34px;">
+                    <div ng-if="currentMeeting.attachments.length > 0">
+
+                    </div>
+
+                    <div ng-if="currentMeeting.attachments.length == 0">
+                        <h5>Вложений нет.</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

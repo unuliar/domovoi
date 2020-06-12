@@ -10,6 +10,20 @@ var app = angular.module('domovoi-app', ['ngRoute','ngCookies']).config(function
             templateUrl: '/templates/organizations.html',
             controller: 'OrganizationController'
         });
+
+    $routeProvider.when('/index',
+        {
+            templateUrl: '/templates/main.html',
+            controller: 'IndexController'
+        });
+
+    $routeProvider.when('/meeting/:meeting_id',
+        {
+            templateUrl: '/templates/meeting_room.html',
+            controller: 'MeetingsRoomController'
+        });
+
+    $routeProvider.otherwise({redirectTo: '/index'});
 });
 
 app.run(function ($rootScope, $http, $cookies) {
@@ -19,6 +33,8 @@ app.run(function ($rootScope, $http, $cookies) {
      * @type {string}
      */
     $rootScope.api_path = 'http://localhost:81/api';
+
+    $rootScope.pageTitle = "Главная";
 
     /**
      * Current dialog
@@ -31,8 +47,6 @@ app.run(function ($rootScope, $http, $cookies) {
         email: "nikolai.ivanov@mail.ru",
         avatar: '/img/avatars/demo1.png'
     };
-
-    $rootScope.pageTitle = "Главная";
 
     $rootScope.loaderState = false;
 
@@ -60,20 +74,7 @@ app.run(function ($rootScope, $http, $cookies) {
         const token = $cookies.get('token');
 
         if(token !== undefined) {
-            $rootScope.apiCall(
-                'POST',
-                'auth/check-token',
-                {
-                    token: token
-                },
-                (result) => {
-                    if (!result.data.status) {
-                        window.location.href = 'login.html';
 
-                        return 0;
-                    }
-                }
-            );
         } else {
             window.location.href = 'login.html';
         }
