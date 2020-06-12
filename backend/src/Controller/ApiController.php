@@ -3,7 +3,11 @@
 namespace App\Controller;
 use App\Entity\Account;
 use App\Entity\House;
+use App\Entity\Meeting;
+use App\Entity\MeetingQuestion;
+use App\Entity\Organisation;
 use App\Entity\PersonClaim;
+use App\Entity\Post;
 use App\Repository\HouseRepository;
 use App\Vk\Api;
 use Symfony\Component\HttpClient\HttpClient;
@@ -20,6 +24,33 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
     public function __construct(\Doctrine\ORM\EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
+    }
+
+    /**
+     * @Rest\Post("/api/post/create")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function postPost(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $rOrg = $this->getDoctrine()->getRepository(Organisation::class);
+        $rUser = $this->getDoctrine()->getRepository(Account::class);
+
+        /** @var Organisation $org */
+        $org = $request->get("org") != null ? $rOrg->findOneBy(["id" => $request->get("org")]) : null;
+        /** @var Account $creator */
+        $creator = $rUser->findOneBy(["id" => $request->get("user")]);
+
+        $post = new Post();
+        $post->setOrg($org);
+        $post->setContent($request->get("content"));
+        $post->setCreated(new \DateTime());
+        $post->setCreator($creator);
+        $this->em->persist($post);
+        $this->em->flush();
+
+        return $this->handleView($this->view(['status' => 'ok', 'id' => $post->getId()], Response::HTTP_CREATED));
     }
 
     /**
@@ -43,6 +74,54 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
         } else {
             return $this->handleView($this->view(['status' => 'error', 'descr' => "unathorized"], Response::HTTP_NOT_FOUND));
         }
+
+    }
+
+    /**
+     * @Rest\Get("/api/meeting/getAllByOrg")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response
+     */
+    public function getMeetsByOrg(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $org = $request->get("org");
+
+
+        $houseRep = $this->getDoctrine()->getRepository(Meeting::class);
+        /** @var Account $user */
+        $meetings = $houseRep->findBy(["house" => ["org" => $org]]);
+        return $this->handleView($this->view(['status' => 'ok', 'meetings' => $meetings]));
+
+
+
+    }
+
+
+    /**
+     * @Rest\Post("/api/meeting/create")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response
+     */
+    public function postMeeting(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $meeting =  new Meeting();
+        $rUser = $this->getDoctrine()->getRepository(Account::class);
+        $creator = $rUser->findOneBy(["id" => $request->get("user")]);
+
+        $houseRep = $this->getDoctrine()->getRepository(House::class);
+        /** @var House $house */
+        $house = $houseRep->findOneBy(["id" => $request->get("house")]);
+        $meeting->setHouse($house);
+        $meeting->setPlannedDate(new \DateTime(strtotime($request->get("startDate"))));
+        $meeting->setPlannedDate(new \DateTime(strtotime($request->get("endDate"))));
+        $meeting->addParticipant($creator);
+
+        foreach ($request->get("questions") as $question) {
+            $q = new MeetingQuestion();
+          //  $q->se
+        }
+
+
 
     }
 
