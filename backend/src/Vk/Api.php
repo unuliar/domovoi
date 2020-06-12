@@ -12,8 +12,9 @@ class Api
     public static $CLIENTID = "7508602";
 
 
-    public function __construct($vkSecret)
+    public function __construct($vkSecret, $backUrl)
     {
+        static::$CALLBACK_URL = $backUrl . "api/vkAuthCallback";
         $this->vkSecret = $vkSecret;
         $this->httpClient = HttpClient::create();
     }

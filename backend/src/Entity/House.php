@@ -59,10 +59,16 @@ class House
      */
     private $meetings;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Letter::class, mappedBy="house")
+     */
+    private $letters;
+
     public function __construct()
     {
         $this->personClaims = new ArrayCollection();
         $this->meetings = new ArrayCollection();
+        $this->letters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -198,6 +204,37 @@ class House
             // set the owning side to null (unless already changed)
             if ($meeting->getHouse() === $this) {
                 $meeting->setHouse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Letter[]
+     */
+    public function getLetters(): Collection
+    {
+        return $this->letters;
+    }
+
+    public function addLetter(Letter $letter): self
+    {
+        if (!$this->letters->contains($letter)) {
+            $this->letters[] = $letter;
+            $letter->setHouse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLetter(Letter $letter): self
+    {
+        if ($this->letters->contains($letter)) {
+            $this->letters->removeElement($letter);
+            // set the owning side to null (unless already changed)
+            if ($letter->getHouse() === $this) {
+                $letter->setHouse(null);
             }
         }
 

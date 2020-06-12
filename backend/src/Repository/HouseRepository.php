@@ -19,6 +19,19 @@ class HouseRepository extends ServiceEntityRepository
         parent::__construct($registry, House::class);
     }
 
+    public function getRandom() {
+        $totalRowsTable = $this->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $random_ids = [mt_rand(1,$totalRowsTable)];
+
+
+        return $this->createQueryBuilder('a')
+            ->where('a.id IN (:ids)') //
+            ->setParameter('ids', $random_ids)
+            ->setMaxResults(1)//
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return House[] Returns an array of House objects
     //  */

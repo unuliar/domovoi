@@ -53,9 +53,45 @@ class Letter
      */
     private $signedAccounts;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=House::class, inversedBy="letters")
+     */
+    private $house;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Account::class, inversedBy="assignedLetters")
+     */
+    private $worker;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $feedback;
+
+    /**
+     * @ORM\Column(type="string", length=1024, nullable=true)
+     */
+    private $feedbackComment;
+
+    /**
+     * @ORM\OneToMany(targetEntity=LetterChanges::class, mappedBy="letter", orphanRemoval=true)
+     */
+    private $letterChanges;
+
     public function __construct()
     {
         $this->signedAccounts = new ArrayCollection();
+        $this->letterChanges = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,6 +180,109 @@ class Letter
     {
         if ($this->signedAccounts->contains($signedAccount)) {
             $this->signedAccounts->removeElement($signedAccount);
+        }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): self
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    public function getHouse(): ?House
+    {
+        return $this->house;
+    }
+
+    public function setHouse(?House $house): self
+    {
+        $this->house = $house;
+
+        return $this;
+    }
+
+    public function getWorker(): ?Account
+    {
+        return $this->worker;
+    }
+
+    public function setWorker(?Account $worker): self
+    {
+        $this->worker = $worker;
+
+        return $this;
+    }
+
+    public function getFeedback(): ?int
+    {
+        return $this->feedback;
+    }
+
+    public function setFeedback(?int $feedback): self
+    {
+        $this->feedback = $feedback;
+
+        return $this;
+    }
+
+    public function getFeedbackComment(): ?string
+    {
+        return $this->feedbackComment;
+    }
+
+    public function setFeedbackComment(?string $feedbackComment): self
+    {
+        $this->feedbackComment = $feedbackComment;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LetterChanges[]
+     */
+    public function getLetterChanges(): Collection
+    {
+        return $this->letterChanges;
+    }
+
+    public function addLetterChange(LetterChanges $letterChange): self
+    {
+        if (!$this->letterChanges->contains($letterChange)) {
+            $this->letterChanges[] = $letterChange;
+            $letterChange->setLetter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLetterChange(LetterChanges $letterChange): self
+    {
+        if ($this->letterChanges->contains($letterChange)) {
+            $this->letterChanges->removeElement($letterChange);
+            // set the owning side to null (unless already changed)
+            if ($letterChange->getLetter() === $this) {
+                $letterChange->setLetter(null);
+            }
         }
 
         return $this;

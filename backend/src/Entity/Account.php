@@ -57,7 +57,7 @@ class Account
     /**
      * @ORM\ManyToMany(targetEntity=PersonClaim::class, mappedBy="accounts")
      */
-    private $house;
+    private $ownings;
 
     /**
      * @ORM\ManyToMany(targetEntity=Notification::class, mappedBy="targets")
@@ -94,14 +94,20 @@ class Account
      */
     private $Org;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Letter::class, mappedBy="worker")
+     */
+    private $assignedLetters;
+
     public function __construct()
     {
-        $this->house = new ArrayCollection();
+        $this->ownings = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->createdLetters = new ArrayCollection();
         $this->recievedLetters = new ArrayCollection();
         $this->signedLetters = new ArrayCollection();
         $this->meetings = new ArrayCollection();
+        $this->assignedLetters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,25 +202,25 @@ class Account
     /**
      * @return Collection|PersonClaim[]
      */
-    public function getHouse(): Collection
+    public function getOwnings(): Collection
     {
-        return $this->house;
+        return $this->ownings;
     }
 
-    public function addHouse(PersonClaim $house): self
+    public function addOwning(PersonClaim $house): self
     {
-        if (!$this->house->contains($house)) {
-            $this->house[] = $house;
+        if (!$this->ownings->contains($house)) {
+            $this->ownings[] = $house;
             $house->addAccount($this);
         }
 
         return $this;
     }
 
-    public function removeHouse(PersonClaim $house): self
+    public function removeOwning(PersonClaim $house): self
     {
-        if ($this->house->contains($house)) {
-            $this->house->removeElement($house);
+        if ($this->ownings->contains($house)) {
+            $this->ownings->removeElement($house);
             $house->removeAccount($this);
         }
 
@@ -387,6 +393,37 @@ class Account
     public function setOrg(?Organisation $Org): self
     {
         $this->Org = $Org;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Letter[]
+     */
+    public function getAssignedLetters(): Collection
+    {
+        return $this->assignedLetters;
+    }
+
+    public function addAssignedLetter(Letter $assignedLetter): self
+    {
+        if (!$this->assignedLetters->contains($assignedLetter)) {
+            $this->assignedLetters[] = $assignedLetter;
+            $assignedLetter->setWorker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssignedLetter(Letter $assignedLetter): self
+    {
+        if ($this->assignedLetters->contains($assignedLetter)) {
+            $this->assignedLetters->removeElement($assignedLetter);
+            // set the owning side to null (unless already changed)
+            if ($assignedLetter->getWorker() === $this) {
+                $assignedLetter->setWorker(null);
+            }
+        }
 
         return $this;
     }

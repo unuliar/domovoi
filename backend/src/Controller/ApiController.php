@@ -2,8 +2,13 @@
 
 namespace App\Controller;
 use App\Entity\Account;
+use App\Entity\House;
+use App\Entity\PersonClaim;
+use App\Repository\HouseRepository;
 use App\Vk\Api;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\Security\Core\User\User;
@@ -18,15 +23,27 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/api/event")
+     * @Rest\Get("/api/organisation/getByToken")
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return Response
      */
-    public function getEvent(\Symfony\Component\HttpFoundation\Request $request)
+    public function getOrgByToken(\Symfony\Component\HttpFoundation\Request $request)
     {
+        $token = $request->get("token");
+        $userRep = $this->getDoctrine()->getRepository(Account::class);
+        /** @var Account $user */
+        $user = $userRep->findOneBy(["vkToken" => $token]);
+        if($user) {
+            $owns = $user->getOwnings();
+            if($owns->isEmpty()) {
+                return $this->handleView($this->view(['status' => 'error', 'descr' => "No properties detected"], Response::HTTP_NOT_FOUND));
+            } else {
+                return $this->handleView($this->view(['status' => 'ok', 'org' => $owns[0]->getHouse()->getOrg()]));
+            }
+        } else {
+            return $this->handleView($this->view(['status' => 'error', 'descr' => "unathorized"], Response::HTTP_NOT_FOUND));
+        }
 
-        //$existing = $userRep->findOneBy(["vkId" => "12"]);
-        return $this->handleView($this->view(['status' => 'ok', 'id' => "12"]));
     }
 
 
@@ -43,7 +60,7 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
     public function getCB(\Symfony\Component\HttpFoundation\Request $request)
     {
         $code = $request->get("code");
-        $vkApi = new Api($this->getParameter("VK_SECRET"));
+        $vkApi = new Api($this->getParameter("VK_SECRET"),$this->getParameter("BACK_URL"));
         $tokenRes = $vkApi->getAuthToken($code);
         $userData = $vkApi->getUserData($tokenRes["access_token"])["response"][0];
 
@@ -60,11 +77,28 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
             ->setLastName($userData["last_name"])
             ->setPhotoUrl($userData["photo_100"])
             ->setBirthDate(new \DateTime($userData["bdate"]));
+
+            $p = mt_rand(1,9);
+            $claim = new PersonClaim();
+            $claim->addAccount($existing);
+            $claim->setDetailedAddress("подъезд " . $p . ", кв " . $p * mt_rand(8,50));
+            $claim->setSize(mt_rand(40, 100));
+            /** @var HouseRepository $hRep */
+            $hRep = $this->getDoctrine()->getRepository(House::class);
+            $claim->setHouse($hRep->getRandom());
+
+            $this->em->persist($claim);
         }
         $existing->setVkToken($tokenRes["access_token"]);
         $this->em->persist($existing);
+
         $this->em->flush();
 
-        return $this->handleView($this->view(['status' => 'ok', 'result' => $userData]));
+        $response = new RedirectResponse($this->getParameter("FRONT_URL"));
+        $cookie = new Cookie('token', $tokenRes["access_token"], time()+36000);
+        $response->headers->setCookie($cookie);
+
+        return $response;
     }
+
 }
