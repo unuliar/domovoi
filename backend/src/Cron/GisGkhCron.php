@@ -28,7 +28,7 @@ class GisGkhCron extends Command
 
     public function __construct(EntityManagerInterface $entityManager)
     {
-        (new Dotenv())->bootEnv(dirname(__DIR__).'/../.env2');
+        //(new Dotenv())->bootEnv(dirname(__DIR__).'/../.env2');
         $this->entityManager = $entityManager;
 
 
@@ -56,8 +56,10 @@ class GisGkhCron extends Command
         $api = new Api();
         $ids = $api->getOrenOrgGuids();
 
+        $houseEm = $this->entityManager->getRepository(House::class);
+
         foreach ($ids as $k =>  $id) {
-            if($k < 41) {
+            if($k < 118) {
                 continue;
             }
 
@@ -108,6 +110,10 @@ class GisGkhCron extends Command
                     $h->setAddress($working["address"]);
                     $h->setBuildingYear(0);
                     if(trim($working["guid"]) != '') {
+                        /** @var House $res */
+                        if($working["guid"] == "3f803765-82a1-4d01-a3b4-d6f5829657ff") {
+                            continue;
+                        }
                         $houseData = $api->getHouseByGuid($working["guid"]);
                         $h->setBuildingYear((int)$houseData["info"]["buildingYear"]);
                         $h->setResidentalPremiseCount((int) ($houseData["info"]["residentialPremiseCount"] ?? 0));
