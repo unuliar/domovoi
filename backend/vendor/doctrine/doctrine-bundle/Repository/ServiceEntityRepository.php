@@ -2,9 +2,10 @@
 
 namespace Doctrine\Bundle\DoctrineBundle\Repository;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use LogicException;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Optional EntityRepository base class with a simplified constructor (for autowiring).
@@ -14,10 +15,10 @@ use LogicException;
  *
  * class YourEntityRepository extends ServiceEntityRepository
  * {
- *     public function __construct(ManagerRegistry $registry)
- *     {
- *         parent::__construct($registry, YourEntity::class);
- *     }
+ * public function __construct(RegistryInterface $registry)
+ * {
+ * parent::__construct($registry, YourEntity::class);
+ * }
  * }
  */
 class ServiceEntityRepository extends EntityRepository implements ServiceEntityRepositoryInterface
@@ -37,5 +38,32 @@ class ServiceEntityRepository extends EntityRepository implements ServiceEntityR
         }
 
         parent::__construct($manager, $manager->getClassMetadata($entityClass));
+    }
+    public function createByRequest(Request $request, &$obj = null ) {
+        $ent = $this->getEntityName();
+        $obj = $obj ?? new $ent();
+        foreach ((new \ReflectionClass($ent))->getProperties() as $field) {
+            $field = $field->name;
+            if(is_callable([$obj, 'set' . ucfirst($field)]) && $request->query->get($field) !== null) {
+                $obj->{'set' . ucfirst($field)}($request->query->get($field));
+            }
+        }
+        $this->getEntityManager()->persist($obj);
+        $this->getEntityManager()->flush($obj);
+        return $obj;
+    }
+
+    public function createByArray(Array $request, &$obj = null ) {
+        $ent = $this->getEntityName();
+        $obj = $obj ?? new $ent();
+        foreach ((new \ReflectionClass($ent))->getProperties() as $field) {
+            $field = $field->name;
+            if(is_callable([$obj, 'set' . ucfirst($field)]) && isset($request[$field])) {
+                $obj->{'set' . ucfirst($field)}($request[$field]);
+            }
+        }
+        $this->getEntityManager()->persist($obj);
+        $this->getEntityManager()->flush($obj);
+        return $obj;
     }
 }

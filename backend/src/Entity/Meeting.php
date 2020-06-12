@@ -55,6 +55,11 @@ class Meeting
      */
     private $plannedEndDate;
 
+    /**
+     * @ORM\Column(type="string", length=4096, nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->Participants = new ArrayCollection();
@@ -199,6 +204,18 @@ class Meeting
     public function setPlannedEndDate(?\DateTimeInterface $plannedEndDate): self
     {
         $this->plannedEndDate = $plannedEndDate;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
