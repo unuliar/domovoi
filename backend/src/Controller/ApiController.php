@@ -46,6 +46,25 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
 
     }
 
+    /**
+     * @Rest\Get("/api/user/getByToken")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response
+     */
+    public function getUserByToken(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $token = $request->get("token");
+        $userRep = $this->getDoctrine()->getRepository(Account::class);
+        /** @var Account $user */
+        $user = $userRep->findOneBy(["vkToken" => $token]);
+        if($user) {
+            return $this->handleView($this->view(['status' => 'ok', 'org' => $user]));
+        } else {
+            return $this->handleView($this->view(['status' => 'error', 'descr' => "unathorized"], Response::HTTP_NOT_FOUND));
+        }
+
+    }
+
 
     /** //https://oauth.vk.com/authorize?client_id=7508602&display=page&redirect_uri=http://localhost:81/api/vkAuthCallback&scope=notifications,email&response_type=code&v=5.110
      * @Rest\Get("/api/vkAuthCallback")
