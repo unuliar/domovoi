@@ -33,7 +33,7 @@ class Meeting
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $status;
+    private $status = "PENDING";
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
