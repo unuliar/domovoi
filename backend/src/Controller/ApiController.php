@@ -85,7 +85,7 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
             $claim->setSize(mt_rand(40, 100));
             /** @var HouseRepository $hRep */
             $hRep = $this->getDoctrine()->getRepository(House::class);
-            $claim->setHouse($hRep->getRandom());
+            $claim->setHouse($hRep->getRandom()[0]);
 
             $this->em->persist($claim);
         }
