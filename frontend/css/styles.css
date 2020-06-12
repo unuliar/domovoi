@@ -30,6 +30,15 @@ html, body , .row, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-m
 html,body {
     height:100%;
 }
+h1 {
+    font-family: Jost;
+    font-size: 30px;
+    font-stretch: normal;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.75px;
+    color: #141836;
+}
 
 h3 {
     font-family: Jost;
@@ -47,7 +56,7 @@ h4 {
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
-    font-weight:600;
+    font-weight:500;
     letter-spacing: 0.45px;
     color: #141836;
 }
@@ -75,6 +84,10 @@ time {
 
 a {
     transition: all ease-in-out .2s;
+}
+
+a:hover {
+    text-decoration: none;
 }
 
 .container-fluid {
@@ -217,15 +230,19 @@ a {
     display: flex;
     justify-content: space-between;
     padding: 20px 20px 20px 90px;
+    transition: all ease-in-out .3s;
+
 }
 
 .list_item:hover {
-    text-decoration: none;
+    background: #fff;
+    cursor: pointer;
 }
 
 .list_item_active {
     background: #fff;
     outline: 1px solid #e7e9f0;
+    border-right: none;
     box-shadow: 0px 6px 29px 0 rgba(201, 211, 246, 0.48);
 }
 
@@ -244,6 +261,7 @@ a {
     background: #fff;
     padding-left: 20px;
     text-transform: uppercase;
+    height:96px;
 }
 
 .category_item h4 {
@@ -252,6 +270,8 @@ a {
 
 .category_item:hover {
     cursor: pointer;
+    outline: 1px solid #e7e9f0;
+
 }
 
 .category_item_uk {
@@ -262,11 +282,122 @@ a {
     border-left:10px solid #0072bc;
 }
 
+.letter_person_block {
+    width:100%;
+    height:97px;
+    border-bottom: 2px solid #e7e9f0;
+    padding: 24px 34px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.letter_tabs a{
+    margin-right: 24px;
+}
+
+.letter_person_info {
+    display: flex;
+    align-items: center;
+}
+
+.letter_person_info img {
+    width: 60px;
+    height: auto;
+    margin-right: 40px;
+}
+
+.letter_wrapper {
+    padding: 54px 133px;
+}
+
+.letter_wrapper p {
+    font-family: Jost;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+    text-align: left;
+    color: #7c7c8a;
+    margin-top: 63px;
+}
+
+.button_wrapper {
+    width:100%;
+    display: flex;
+    justify-content: center;
+}
+
+.base_button {
+    border:none;
+    border-radius: 34px;
+    padding: 29px 72px;
+
+    font-family: Jost;
+    font-size: 14px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.36;
+    letter-spacing: 0.35px;
+    color: #ffffff;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-transform: uppercase;
+    transition: all ease-in-out .2s;
+}
+
+.primary_button {
+    background-color: rgb(78, 120, 253);
+}
+
+.primary_button:hover {
+    background: rgba(78, 120, 253, .8);
+}
 
 
+.success_button {
+    background-color: rgb(57, 181, 74);
+}
+
+.success_button:hover {
+    background: rgba(57, 181, 74, .8);
+}
 
 
+.info_button {
+    background-color: rgb(140, 78, 253);
+}
 
+.info_button:hover {
+    background: rgba(140, 78, 253, .8);
+}
+
+.warning_button {
+    background-color: rgb(253, 123, 78);
+}
+
+.warning_button:hover {
+    background: rgba(253, 123, 78, .8);
+}
+
+.danger_button {
+    background-color: rgb(253, 78, 78);
+}
+
+.danger_button:hover {
+    background: rgba(253, 78, 78, .8);
+}
+
+
+button:focus {
+    outline:none;
+}
 
 
 
