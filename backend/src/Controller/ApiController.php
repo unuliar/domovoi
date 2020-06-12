@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Account;
 
 use App\Entity\AccountPollResult;
+use App\Entity\Attachment;
 use App\Entity\House;
 use App\Entity\Meeting;
 use App\Entity\MeetingQuestion;
@@ -15,7 +16,9 @@ use App\Repository\HouseRepository;
 use App\Vk\Api;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -28,6 +31,19 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
     public function __construct(\Doctrine\ORM\EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
+    }
+
+    protected function processFiles(Request $req) {
+        /** @var UploadedFile[] $uploaded */
+        $uploaded = $req->files->all();
+        $res = [];
+        foreach ($uploaded as $file) {
+            $f = new Attachment();
+            $f->setFile($file->getRealPath());
+            $f->setName($file->getFilename());
+            $res[] = $f;
+        }
+        return $res;
     }
 
     /**
@@ -52,6 +68,13 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
         $post->setContent($data["content"]);
         $post->setCreated(new \DateTime());
         $post->setCreator($creator);
+
+
+        foreach ($this->processFiles($request) as $file) {
+            $file->setPost($post);
+            $this->em->persist($file);
+        }
+        //$post->addAttachment()
         $this->em->persist($post);
         $this->em->flush();
 
@@ -80,6 +103,18 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
             return $this->handleView($this->view(['status' => 'error', 'descr' => "unathorized"], Response::HTTP_NOT_FOUND));
         }
 
+    }
+
+    /**
+     * @Rest\Get("/api/meeting/get")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response
+     */
+    public function getMeetById(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $meetRep = $this->getDoctrine()->getRepository(Meeting::class);
+
+        return $this->handleView($this->view(['status' => 'ok', 'meeting' => $meetRep->findOneBy(["id" =>  $request->get("id")])]));
     }
 
     /**
@@ -193,6 +228,12 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
             $q->setMeeting($result);
             $q->setPoll($question["poll"] ? new Poll() : null);
             $q->setSubject($question["subject"]);
+
+            /** @var Attachment $file */
+            foreach ($this->processFiles($request) as $file) {
+                $file->setMeetingQuestion($q);
+                $this->em->persist($file);
+            }
             $this->em->persist($q);
         }
 
