@@ -10,7 +10,6 @@ var app = angular.module('domovoi-app', ['ngRoute','ngCookies']).config(function
             templateUrl: '/templates/organizations.html',
             controller: 'OrganizationController'
         });
-    $routeProvider.otherwise({redirectTo: '/letters'});
 });
 
 app.run(function ($rootScope, $http, $cookies) {
