@@ -47,13 +47,14 @@ class UserApiController extends ApiController
         $userRep = $this->getDoctrine()->getRepository(Account::class);
         /** @var Account $user */
         $user = $userRep->findOneBy(["vkToken" => $token]);
+        $view = $this->view(['status' => 'ok', 'org' => $user]);
+        $view->getContext()->setGroups(array('Default'));
 
         if($user) {
-            return $this->handleView($this->view(['status' => 'ok', 'org' => $user]));
+            return $this->handleView($view);
         } else {
             return $this->handleView($this->view(['status' => 'error', 'descr' => "unathorized"], Response::HTTP_NOT_FOUND));
         }
-
     }
 
 

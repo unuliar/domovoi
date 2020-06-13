@@ -20,6 +20,24 @@ class MettingsApiController extends ApiController
 {
 
     /**
+     * @Rest\Get("/api/meeting/getByUser")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response
+     */
+    public function getMeetsByUser(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $accRep = $this->getDoctrine()->getRepository(Account::class);
+
+        /** @var Account $user */
+        $user = $accRep->findOneBy(["vkToken" => $request->get("token")]);
+
+        $view = $this->view(['status' => 'ok', 'meetings' =>  $user->getOwnings()[0]->getHouse()->getMeetings()]);
+        $view->getContext()->setGroups(array('Default'));
+
+        return $this->handleView($view);
+    }
+
+    /**
      * @Rest\Get("/api/meeting/get")
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return Response
