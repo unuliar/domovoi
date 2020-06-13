@@ -433,4 +433,24 @@ class Account
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCreatedMeetings()
+    {
+        return $this->createdMeetings;
+    }
+
+    /**
+     * @param mixed $createdMeetings
+     *
+     * @return Account
+     */
+    public function setCreatedMeetings($createdMeetings)
+    {
+        $this->createdMeetings = $createdMeetings;
+
+        return $this;
+    }
+
 }
