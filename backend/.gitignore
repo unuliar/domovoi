@@ -2,3 +2,4 @@
 /var/*
 !/vendor/doctrine/doctrine-bundle/Repository/ServiceEntityRepository.php
 !/vendor/workerman/workerman/Worker.php
+/.env

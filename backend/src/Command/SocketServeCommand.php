@@ -79,24 +79,24 @@ class SocketServeCommand extends Command
         };
 
         $this->wm->onMessage = function ($connection, $data) use (&$connections) {
-            echo "Got message: " . $data;
+            echo "Got message";
 
             $data = json_decode($data);
             $data->msg = htmlspecialchars($data->msg);
             $data->time = date('H:i d.m.Y');
 
+            $stmt = $this->em
+                ->getConnection()
+                ->prepare('INSERT INTO chat_message (meeting_id, author_id, text, send_time) VALUES (:m_id, :a_id, :text, :send_time)');
+            $stmt->execute([
+                'm_id' => $data->meeting_id,
+                'a_id' => $data->user->id,
+                'text' => $data->msg,
+                'send_time' => date('Y-m-d H:i:s')
+            ]);
+
             foreach ($this->connections as $c) {
                 if($c['meeting_room_id'] == $data->meeting_id) {
-                    $stmt = $this->em
-                        ->getConnection()
-                        ->prepare('INSERT INTO chat_message (meeting_id, author_id, text, send_time) VALUES (:m_id, :a_id, :text, :send_time)');
-                    $stmt->execute([
-                        'm_id' => $data->meeting_id,
-                        'a_id' => $data->user->id,
-                        'text' => $data->msg,
-                        'send_time' => date('Y-m-d H:i:s')
-                    ]);
-
                     $c['connectionInstance']->send(json_encode($data));
                 }
             }
