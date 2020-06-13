@@ -1,4 +1,4 @@
-app.controller('MeetingProtocolController', function ($scope, $rootScope, $routeParams) {
+app.controller('MeetingProtocolController', function ($scope, $rootScope, $routeParams, $filter) {
    /* document.querySelectorAll('link[rel="stylesheet"]')
         .forEach(el => el.parentNode.removeChild(el));*/
    console.log(document.getElementsByTagName("ng-view"));
@@ -24,7 +24,7 @@ app.controller('MeetingProtocolController', function ($scope, $rootScope, $route
 
                 {"name" : "Адрес многоквартирного дома", "value"  : $scope.meeting.house.address,},
                 {"name" : "Вид собрания" , "value" : "Заочное",},
-                {"name" : "Время проведения собрания", "value"  : $scope.meeting.planned_date,},
+                {"name" : "Время проведения собрания", "value"  : $filter('number')($scope.meeting.planned_date, 1),},
                 {"name" : "Место проведения собрания", "value"  : "Информационная система Домовой",},
                 {"name" : "Место сбора бланков", "value"  : "Информационная система Домовой",},
                 {"name" : "Место подсчета голосов", "value"  : "Информационная система Домовой",},
@@ -54,7 +54,7 @@ app.controller('MeetingProtocolController', function ($scope, $rootScope, $route
                             }
                         }              let all = (agreed+disagreed+ ignored);
                         q.poll.stat = {
-                            agr:{sum:agreed, percent : 100* parseFloat(ignored.toString()) / all},
+                            agr:{sum:agreed, percent : 100* parseFloat(agreed.toString()) / all},
                             dis:{sum:disagreed,percent : 100* parseFloat(disagreed.toString()) / all},
                             ign:{sum:ignored, percent : 100* parseFloat(ignored.toString()) / all },
                         };
