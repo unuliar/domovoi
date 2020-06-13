@@ -87,7 +87,7 @@ app.run(function ($rootScope, $http, $cookies) {
         $http({
             method: "POST",
             url: `${$rootScope.api_path}/${url}?token=${token}`,
-            body: JSON.stringify(data)
+            data: data
         }).then(onSuccess).then((error) => console.log(error))
     };
 
