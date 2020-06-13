@@ -2,6 +2,8 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
     $rootScope.checkAuth();
     $rootScope.setLoader(true);
 
+    $rootScope.pageTitle = `Собрание №${$routeParams.meeting_id}`;
+
     /** Connection */
     const SOCKET_ADDR = $rootScope.host;
     const SOCKET_PORT = '8081';
