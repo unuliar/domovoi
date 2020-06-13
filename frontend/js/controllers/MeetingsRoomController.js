@@ -3,7 +3,7 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
     $rootScope.setLoader(true);
 
     /** Connection */
-    const SOCKET_ADDR = '127.0.0.1';
+    const SOCKET_ADDR = $rootScope.host;
     const SOCKET_PORT = '8081';
 
     const chatBox = document.getElementById("chatbox");
