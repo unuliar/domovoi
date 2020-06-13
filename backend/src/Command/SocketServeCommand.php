@@ -39,8 +39,7 @@ class SocketServeCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Runs websocket server')
-        ;
+            ->setDescription('Runs websocket server');
     }
 
     /**
@@ -57,26 +56,23 @@ class SocketServeCommand extends Command
     }
 
     /**
-     * @param InputInterface         $input
-     * @param OutputInterface        $output
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      *
      * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->wm = new \Workerman\Worker(sprintf("websocket://%s:%d",self::WS_HOST, self::WS_PORT));
+        $this->wm = new \Workerman\Worker(sprintf("websocket://%s:%d", self::WS_HOST, self::WS_PORT));
         $this->wm->count = self::WS_WORKERS_COUNT;
 
         $connections = &$this->connections;
 
         $this->wm->onConnect = function ($connection) use (&$connections) {
-            $connection->onWebSocketConnect = function($connection) use (&$connections) {
+            $connection->onWebSocketConnect = function ($connection) use (&$connections) {
                 echo "Established new WebSocket connection to room " . $_GET['meeting_id'] . "\n";
 
-                array_push($this->connections, [
-                    'meeting_room_id' => $_GET['meeting_id'],
-                    'connectionInstance' => $connection
-                ]);
+                $connections[$_GET['meeting_id']][] = $connection;
             };
         };
 
@@ -91,16 +87,14 @@ class SocketServeCommand extends Command
                 ->getConnection()
                 ->prepare('INSERT INTO chat_message (meeting_id, author_id, text, send_time) VALUES (:m_id, :a_id, :text, :send_time)');
             $stmt->execute([
-                'm_id' => $data->meeting_id,
-                'a_id' => $data->user->id,
-                'text' => $data->msg,
-                'send_time' => date('Y-m-d H:i:s')
+                'm_id'      => $data->meeting_id,
+                'a_id'      => $data->user->id,
+                'text'      => $data->msg,
+                'send_time' => date('Y-m-d H:i:s'),
             ]);
 
-            foreach ($this->connections as $c) {
-                if($c['meeting_room_id'] == $data->meeting_id) {
-                    $c['connectionInstance']->send(json_encode($data));
-                }
+            foreach ($this->connections[$data->meeting_id] as $c) {
+                $c->send(json_encode($data));
             }
         };
 
