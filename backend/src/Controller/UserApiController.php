@@ -51,8 +51,6 @@ class UserApiController extends ApiController
         $view = $this->view(['status' => 'ok', 'org' => $user]);
         $view->getContext()->setGroups(array('Default'));
 
-
-        dd($user);
         if($user) {
             return $this->handleView($view);
         } else {
