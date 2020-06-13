@@ -62,8 +62,6 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
 
     $scope.params = $routeParams;
 
-    $rootScope.pageTitle = "Собрание";
-
     $scope.currentMeeting = {
         title: "Решаем важные вопросы",
         date: "22 Мая, 2020 - 18:00",
