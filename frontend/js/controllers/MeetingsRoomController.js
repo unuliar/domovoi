@@ -37,7 +37,7 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
         },
         (result) => {
             console.log(result);
-
+            $scope.currentMeeting = result.data.meeting;
                 $scope.messages = result.data.meeting.chat_messages;
 
         }
