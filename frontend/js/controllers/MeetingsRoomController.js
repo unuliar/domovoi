@@ -4,6 +4,16 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
 
     $rootScope.pageTitle = `Собрание №${$routeParams.meeting_id}`;
 
+    $rootScope.apiCall(
+        'GET',
+        'meeting/getById',
+        {
+            id: $routeParams.meeting_id
+        },
+        (result) => {
+            console.log(result);
+        }
+    );
     /** Connection */
     const SOCKET_ADDR = $rootScope.host;
     const SOCKET_PORT = '8081';
