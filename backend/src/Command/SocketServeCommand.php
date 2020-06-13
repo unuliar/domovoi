@@ -17,7 +17,7 @@ class SocketServeCommand extends Command
 
     const WS_HOST = '0.0.0.0';
     const WS_PORT = 8081;
-    const WS_WORKERS_COUNT = 4;
+    const WS_WORKERS_COUNT = 1;
 
     /**
      * Active websocket connections
