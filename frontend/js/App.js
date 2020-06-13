@@ -66,7 +66,7 @@ app.run(function ($rootScope, $http, $cookies) {
             method: method,
             url: `${$rootScope.api_path}/${url}?token=${token}`,
             params: data
-        }).then(onSuccess)
+        }).then(onSuccess).then((error) => console.log(error))
     };
 
     /**
