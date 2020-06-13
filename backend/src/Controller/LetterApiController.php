@@ -10,6 +10,7 @@ use App\Entity\Meeting;
 use App\Entity\MeetingQuestion;
 use App\Entity\Poll;
 use Symfony\Component\HttpFoundation\Response;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 class LetterApiController
 {
