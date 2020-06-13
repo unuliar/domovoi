@@ -60,6 +60,8 @@ class Meeting
      */
     private $description;
 
+
+
     public function __construct()
     {
         $this->Participants = new ArrayCollection();
@@ -219,4 +221,5 @@ class Meeting
 
         return $this;
     }
+
 }

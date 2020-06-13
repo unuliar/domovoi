@@ -30,13 +30,10 @@ class MettingsApiController extends ApiController
 
         $meet = $meetRep->findOneBy(["id" =>  $request->get("id")]);
 
+        $view = $this->view(['status' => 'ok', 'meeting' => $meet]);
+        $view->getContext()->setGroups(array('Default'));
 
-        $serializer =  SerializerBuilder::create()->build();
-
-
-        $res = $serializer->serialize($meet, 'json', SerializationContext::create()->setGroups(array('Default')));
-
-        return $this->handleView($this->view(['status' => 'ok', 'meeting' => $res]));
+        return $this->handleView($view);
     }
 
     /**
