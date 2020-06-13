@@ -11,6 +11,7 @@ use App\Entity\House;
 use App\Entity\Meeting;
 use App\Entity\MeetingQuestion;
 use App\Entity\Poll;
+use App\Repository\AccountPollResultRepository;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
@@ -84,16 +85,21 @@ class MettingsApiController extends ApiController
      */
     public function postVote(\Symfony\Component\HttpFoundation\Request $request)
     {
-        $data = $request->request->all();
+        $data = json_decode($request->get('body'), true);
+
         $polRe = $this->getDoctrine()->getRepository(Poll::class);
         $accRe = $this->getDoctrine()->getRepository(Account::class);
+        $resRe = $this->getDoctrine()->getRepository(AccountPollResultRepository::class);
+
 
         /** @var Poll $poll */
         $poll = $polRe->findOneBy(["id" => $data["poll"]]);
 
         /** @var Account $user */
         $user = $accRe->findOneBy(["vkToken" => $data["token"]]);
-
+        if($resRe->findOneBy(["poll" => $data["poll"], "account" => $user->getId()])) {
+            return $this->handleView($this->view(['status' => 'failed', "descr" => "already voted"], Response::HTTP_OK));
+        }
         $pollRes = new AccountPollResult();
         $pollRes->setPoll($poll);
         $pollRes->setAccount($user);
