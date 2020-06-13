@@ -87,6 +87,12 @@
                     <button class="base_button primary_button">ВОЙТИ В КОМНАТУ СОБРАНИЯ</button>
                 </a>
             </div>
+
+            <div class="button_wrapper" ng-if="activeMeeting.archieved">
+                <a href="#!/meeting/{{ activeMeeting.id }}/protocol/printable">
+                    <button class="base_button primary_button">ПРОТОКОЛ СОБРАНИЯ</button>
+                </a>
+            </div>
         </div>
     </div>
 </div>
