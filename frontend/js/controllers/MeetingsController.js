@@ -34,7 +34,5 @@ app.controller('MeetingsController', function ($scope, $rootScope, $cookies) {
         meeting.classList = {"list_item_active": true};
 
         $scope.activeMeeting = meeting;
-
-        console.log($scope.activeMeeting)
     };
 });
