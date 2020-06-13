@@ -8,7 +8,7 @@
                 <div class="list_item" ng-class="meeting.classList" ng-click="setActiveMeeting(meeting)">
                     <div class="letter_content">
                         <h4>{{ meeting.title }}</h4>
-                        <time>{{ formatDate(meeting.planned_date) }} <span class="badge badge-primary">ЗАВЕРШЕНО</span></time>
+                        <time>{{ formatDate(meeting.planned_date) }} <span class="badge badge-primary" ng-if="meeting.archieved">ЗАВЕРШЕНО</span></time>
                     </div>
 
                     <div class="letter_author_avatar">
