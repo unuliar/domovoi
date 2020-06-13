@@ -15,3 +15,5 @@ ADD docker/backend/conf/nginx/site.conf /etc/nginx/sites-available/site.conf
 
 # Включаем его
 RUN ln -s /etc/nginx/sites-available/site.conf /etc/nginx/sites-enabled/site.conf
+
+WORKDIR /var/www/backend
