@@ -17,7 +17,7 @@
     </div>
 </div>
 <div class="col-md-8">
-    <div >
+    <div ng-if="activeMeeting !== null">
         <div class="letter_person_block">
             <div class="letter_person_info">
                 <img src="{{ activeMeeting.user.avatar }}"/>
@@ -67,5 +67,4 @@
             </div>
         </div>
     </div>
-</div>
 </div>
