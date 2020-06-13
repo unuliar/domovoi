@@ -74,6 +74,24 @@ app.run(function ($rootScope, $http, $cookies) {
     };
 
     /**
+     * Calling API
+     *
+     * @param url
+     * @param data
+     * @param onSuccess
+     */
+    $rootScope.apiPostCall = ( url, data, onSuccess) => {
+        const token = $cookies.get('token');
+        data["token"] = token;
+        $http({
+            method: "POST",
+            url: `${$rootScope.api_path}/${url}?token=${token}`,
+            body: JSON.stringify(data)
+        }).then(onSuccess).then((error) => console.log(error))
+    };
+
+
+    /**
      * Checking authorization state
      */
     $rootScope.checkAuth = () => {
