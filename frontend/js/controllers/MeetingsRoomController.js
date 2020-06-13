@@ -36,10 +36,10 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
             id: $routeParams.meeting_id
         },
         (result) => {
+            console.log(result);
+
             $scope.$apply(() => {
-                $scope.messages = {
-                    name: 123
-                };
+                $scope.messages = result.data.meeting.chat_messages;
             });
 
         }
