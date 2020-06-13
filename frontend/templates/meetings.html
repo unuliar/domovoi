@@ -1,5 +1,4 @@
 <div class="row w-100 vh-100" ng-controller="MeetingsController">
-    {{ activeMeeting }}
     <div class="col-md-4">
         <div class="list_wrapper">
             <div ng-repeat="meeting in meetings" ng-class="list_item_wrapper">
@@ -18,7 +17,7 @@
     </div>
 </div>
 <div class="col-md-8">
-    <div ng-if="activeMeeting !== null">
+    <div >
         <div class="letter_person_block">
             <div class="letter_person_info">
                 <img src="{{ activeMeeting.user.avatar }}"/>
