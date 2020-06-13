@@ -97,6 +97,8 @@ class SocketServeCommand extends Command
                 'send_time' => date('Y-m-d H:i:s')
             ]);
 
+            var_dump($this->connections);
+
             foreach ($this->connections as $c) {
                 if($c['meeting_room_id'] == $data->meeting_id) {
                     $c['connectionInstance']->send(json_encode($data));
