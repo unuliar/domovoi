@@ -69,7 +69,6 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
         $post->setCreated(new \DateTime());
         $post->setCreator($creator);
 
-
         foreach ($this->processFiles($request) as $file) {
             $file->setPost($post);
             $this->em->persist($file);

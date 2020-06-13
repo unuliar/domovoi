@@ -47,6 +47,7 @@ class UserApiController extends ApiController
         $userRep = $this->getDoctrine()->getRepository(Account::class);
         /** @var Account $user */
         $user = $userRep->findOneBy(["vkToken" => $token]);
+
         if($user) {
             return $this->handleView($this->view(['status' => 'ok', 'org' => $user]));
         } else {
