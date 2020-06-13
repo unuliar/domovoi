@@ -1,6 +1,9 @@
 <div class="row w-100 vh-100">
     <div class="col-md-4">
         <div class="list_wrapper">
+            <div class="list_item" >
+                <h4>СОЗДАТЬ НОВОЕ СОБРАНИЕ</h4>
+            </div>
             <div ng-repeat="meeting in meetings" ng-class="list_item_wrapper">
                 <div class="list_item" ng-class="meeting.classList" ng-click="setActiveMeeting(meeting)">
                     <div class="letter_content">
