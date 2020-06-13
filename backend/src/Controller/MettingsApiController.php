@@ -142,15 +142,17 @@ class MettingsApiController extends ApiController
     {
         $data = $request->request->all();
 
-        $data["plannedDate"] =  new \DateTime($request->get('plannedDate')) ?? new \DateTime();
-        $data["plannedEndDate"] =  new \DateTime($request->get('plannedEndDate')) ?? new \DateTime("12.12.2099");
+        $data["plannedDate"] =  new \DateTime($request->get('date')) ?? new \DateTime();
+        $data["plannedEndDate"] =  new \DateTime($request->get('date')) ?? new \DateTime("12.12.2099");
 
-        $houseRep = $this->getDoctrine()->getRepository(House::class);
-        /** @var House $house */
-        $house = $houseRep->findOneBy(["id" => $data["house"]]);
+        $accountRep = $this->getDoctrine()->getRepository(Account::class);
+        /** @var Account $house */
+        $account = $accountRep->findOneBy(['vkToken' => $request->get('token')]);
+        $house = $account->getOwnings()[0];
 
         $data["house"] = $house;
-
+        $data["title"] = $request->get('title');
+        $data["description"] = $request->get('desc');
 
         $rep = $this->getDoctrine()->getRepository(Meeting::class);
         /** @var Meeting $result */
@@ -162,7 +164,7 @@ class MettingsApiController extends ApiController
             $q->setBody($question["body"]);
             $q->setMeeting($result);
             $q->setPoll($question["poll"] ? new Poll() : null);
-            $q->setSubject($question["subject"]);
+            $q->setSubject($question["name"]);
 
             /** @var Attachment $file */
             foreach ($this->processFiles($request) as $file) {
