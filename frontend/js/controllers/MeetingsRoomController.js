@@ -36,7 +36,6 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
             id: $routeParams.meeting_id
         },
         (result) => {
-            console.log(result);
             $rootScope.setLoader(false);
             $scope.currentMeeting = result.data.meeting;
                 $scope.messages = result.data.meeting.chat_messages;
@@ -85,6 +84,20 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
         new_socket.onerror = $scope.socket.onerror;
 
         $scope.socket = new_socket;
+    };
+
+    $scope.postVote = function(result, pollId) {
+        $rootScope.apiPostCall(
+            'meeting/vote',
+            {
+                poll: pollId,
+                cote: result
+            },
+            (result) => {
+                console.log(result);
+
+            }
+        );
     };
 
     $scope.sendMessage = () => {

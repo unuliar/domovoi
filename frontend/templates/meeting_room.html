@@ -46,9 +46,9 @@
                                 <div class="col-md-12"><span>{{ q.body }}</span></div>
                             </div>
                             <div ng-if="q.poll.id" class="row mt-2">
-                                <button class="base_button success_button mr-2">ПОДДЕРЖИВАЮ</button>
-                                <button class="base_button danger_button mr-2">НЕ ПОДДЕРЖИВАЮ</button>
-                                <button class="base_button primary_button">ВОЗДЕРЖУСЬ ОТ ОТВЕТА</button>
+                                <button class="base_button success_button mr-2" ng-click="postVote(1,q.poll.id)">ПОДДЕРЖИВАЮ</button>
+                                <button class="base_button danger_button mr-2" ng-click="postVote(-1,q.poll.id)">НЕ ПОДДЕРЖИВАЮ</button>
+                                <button class="base_button primary_button" ng-click="postVote(0,q.poll.id)">ВОЗДЕРЖУСЬ ОТ ОТВЕТА</button>
                             </div>
                             <hr>
                             <div style="padding: 5px 0">
