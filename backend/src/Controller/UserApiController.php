@@ -78,7 +78,7 @@ class UserApiController extends ApiController
         if(!$existing) {
             $existing = new Account();
             $existing->setVkToken($tokenRes["access_token"])
-                ->setCity($userData["city"] ?? []["title"])
+                ->setCity($userData["city"] ?? 'Не указан')
                 ->setVkId($userData["id"])
                 ->setFirstName($userData["first_name"])
                 ->setLastName($userData["last_name"])
