@@ -141,6 +141,10 @@ a:hover {
     align-items: center;
 }
 
+table, th, td {
+    border: 1px solid black;
+}
+
 .tabs_wrapper {
     margin-top: 29px;
     width:100%;

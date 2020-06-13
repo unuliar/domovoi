@@ -244,24 +244,4 @@ class Meeting
 
         return $this;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getInitiator(): ?Account
-    {
-        return $this->initiator;
-    }
-
-    /**
-     * @param mixed $initiator
-     *
-     * @return Meeting
-     */
-    public function setInitiator($initiator): ?Meeting
-    {
-        $this->initiator = $initiator;
-
-        return $this;
-    }
 }

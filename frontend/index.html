@@ -23,6 +23,7 @@
     <script src="js/controllers/OrganizationController.js"></script>
     <script src="js/controllers/IndexController.js"></script>
     <script src="js/controllers/MeetingsController.js"></script>
+    <script src="js/controllers/MeetingProtocolController.js"></script>
     <script src="js/controllers/MeetingsRoomController.js"></script>
     <script src="js/controllers/PaymentsController.js"></script>
     <script src="js/controllers/RequestsController.js"></script>
@@ -44,7 +45,7 @@
 
 <div class="container-fluid">
     <div class="row w-100 h-100">
-        <div class="col-md-2 col-sm-12 col-xs-12">
+        <div class="col-md-2 col-sm-12 col-xs-12 d-print-none">
             <div class="sidebar position-fixed-responsive" ng-controller="SidebarController">
                 <div class="sidebar__header">
                     <a href="/"><img src="img/logo.png" alt="Domovoi logo" /></a>
@@ -87,8 +88,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-10 col-sm-12 col-xs-12">
-            <div class="content_header sticky-top bg-white">
+        <div class="col-md-10 col-sm-12 col-xs-12 ">
+            <div class="content_header sticky-top bg-white d-print-none">
                 <h3>{{ pageTitle }}</h3>
             </div>
 
