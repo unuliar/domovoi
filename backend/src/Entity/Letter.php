@@ -56,7 +56,7 @@ class Letter
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $status;
+    private $status = "Ожидает";
 
     /**
      * @ORM\Column(type="datetime")
