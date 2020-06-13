@@ -91,7 +91,7 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
             'meeting/vote',
             {
                 poll: pollId,
-                cote: result
+                vote: result
             },
             (result) => {
                 console.log(result);

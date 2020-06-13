@@ -83,6 +83,7 @@ app.run(function ($rootScope, $http, $cookies) {
     $rootScope.apiPostCall = ( url, data, onSuccess) => {
         const token = $cookies.get('token');
         data["token"] = token;
+        console.log(JSON.stringify(data));
         $http({
             method: "POST",
             url: `${$rootScope.api_path}/${url}?token=${token}`,
