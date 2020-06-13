@@ -97,6 +97,7 @@ class SocketServeCommand extends Command
 
             foreach ($this->connections as $c) {
                 if($c['meeting_room_id'] == $data->meeting_id) {
+                    var_dump($c['meeting_room_id']);
                     $c['connectionInstance']->send(json_encode($data));
                 }
             }
