@@ -20,7 +20,6 @@ var app = angular.module('domovoi-app', ['ngRoute','ngCookies']).config(function
     $routeProvider.when('/meeting/:meeting_id',
         {
             templateUrl: '/templates/meeting_room.html',
-            controller: 'MeetingsRoomController'
         });
 
     $routeProvider.otherwise({redirectTo: '/index'});
