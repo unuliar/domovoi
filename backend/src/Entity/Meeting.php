@@ -69,7 +69,7 @@ class Meeting
      * @ORM\ManyToOne(targetEntity=Account::class, inversedBy="createdMeetings")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $initiators;
+    private $initiator;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
