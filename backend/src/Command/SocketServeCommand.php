@@ -67,6 +67,8 @@ class SocketServeCommand extends Command
         $this->wm = new \Workerman\Worker(sprintf("websocket://%s:%d",self::WS_HOST, self::WS_PORT));
         $this->wm->count = self::WS_WORKERS_COUNT;
 
+        $connections = &$this->connections;
+
         $this->wm->onConnect = function ($connection) use (&$connections) {
             $connection->onWebSocketConnect = function($connection) use (&$connections) {
                 echo "Established new WebSocket connection to room " . $_GET['meeting_id'] . "\n";
@@ -94,7 +96,7 @@ class SocketServeCommand extends Command
                 'text' => $data->msg,
                 'send_time' => date('Y-m-d H:i:s')
             ]);
-            var_dump($this->connections);
+
             foreach ($this->connections as $c) {
                 if($c['meeting_room_id'] == $data->meeting_id) {
                     $c['connectionInstance']->send(json_encode($data));
