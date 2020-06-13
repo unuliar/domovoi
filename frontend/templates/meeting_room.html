@@ -1,18 +1,19 @@
-<div class="row w-100 ">
+<div class="row w-100">
     <div class="col-md-4 " style="height:91.6vh">
         <div class="list_wrapper chat_wrapper ">
             <div class="messages">
+                {{ messages }}
                 <div ng-repeat="message in messages">
-                    <div class="chat-message" ng-class="{'outcoming': currentUser.id == message.user.id}">
+                    <div class="chat-message" ng-class="{'outcoming': currentUser.id == message.user.id || message.author.id}">
                         <div class="chat-data">
                             <div class="chat-message-avatar"
                                  style="background-image: url({{message.user.photo_url}})"></div>
                             <div class="chat-bubble">
-                                {{ message.msg }}
+                                {{ message.text || message.msg }}
                             </div>
                         </div>
                         <div class="chat-message-time">
-                            <span>{{ message.time }}</span>
+                            <span>{{ message.send_time || message.time }}</span>
                         </div>
                     </div>
                 </div>
