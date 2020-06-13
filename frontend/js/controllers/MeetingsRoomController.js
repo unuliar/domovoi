@@ -157,5 +157,23 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
         }
     };
 
-    $scope.params = $routeParams;
+    $scope.closeMeeting = () => {
+        $rootScope.apiCall(
+            'POST',
+            'meeting/close',
+            {
+               meeting_id: $scope.currentMeeting.id
+            },
+            (result) => {
+                Swal.fire({
+                    title: 'Спасибо!',
+                    text: 'Собрание успешно завершено',
+                    type:'success',
+                    icon:'success'
+                }).then((result) => {
+                    window.location.href = "#!/meetings";
+                })
+            }
+        );
+    };
 });

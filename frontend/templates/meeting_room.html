@@ -73,7 +73,7 @@
                     </div>
                 </div>
                 <div class="button_wrapper" style="width:100%; display: flex; justify-content: center">
-                    <button class="base_button success_button" ng-if="currentMeeting.initiator.id == currentUser.id">Завершить собрание</button>
+                    <button class="base_button success_button" ng-if="currentMeeting.initiator.id == currentUser.id" ng-click="closeMeeting()">Завершить собрание</button>
                 </div>
             </div>
 
