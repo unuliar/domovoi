@@ -1,4 +1,4 @@
-var app = angular.module('domovoi-app', ['ngRoute','ngCookies']).config(function($routeProvider) {
+var app = angular.module('domovoi-app', ['ngRoute', 'ngCookies']).config(function ($routeProvider) {
     $routeProvider.when('/letters',
         {
             templateUrl: '/templates/letters.html',
@@ -37,12 +37,11 @@ app.run(function ($rootScope, $http, $cookies) {
      *
      * @type {string}
      */
-    $rootScope.host = '35.224.154.143';
+    $rootScope.host = 'localhost';
 
     $rootScope.api_path = `http://${$rootScope.host}:81/api`;
 
     $rootScope.pageTitle = "Главная";
-
     /**
      * Current dialog
      *
@@ -80,7 +79,7 @@ app.run(function ($rootScope, $http, $cookies) {
     $rootScope.checkAuth = () => {
         const token = $cookies.get('token');
 
-        if(token !== undefined) {
+        if (token !== undefined) {
 
         } else {
             window.location.href = 'login.html';
@@ -90,4 +89,9 @@ app.run(function ($rootScope, $http, $cookies) {
     $rootScope.setLoader = (state) => {
         $rootScope.loaderState = state;
     }
+
+    $rootScope.formatDate = date => {
+        const ruMoment = moment(date).locale('ru');
+        return ruMoment.format('LLL');
+    };
 });

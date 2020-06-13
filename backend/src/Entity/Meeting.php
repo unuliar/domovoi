@@ -60,6 +60,11 @@ class Meeting
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $title;
+
     public function __construct()
     {
         $this->Participants = new ArrayCollection();
@@ -216,6 +221,46 @@ class Meeting
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     *
+     * @return Meeting
+     */
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInitiator(): ?Account
+    {
+        return $this->initiator;
+    }
+
+    /**
+     * @param mixed $initiator
+     *
+     * @return Meeting
+     */
+    public function setInitiator($initiator): ?Meeting
+    {
+        $this->initiator = $initiator;
 
         return $this;
     }

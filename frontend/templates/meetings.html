@@ -1,14 +1,14 @@
 <div class="row w-100 vh-100">
     <div class="col-md-4">
         <div class="list_wrapper">
-            <div class="list_item" style="display: flex; justify-content: center; padding-left:20px; background: rgb(57, 181, 74); color: #fff;">
-                <h4>СОЗДАТЬ НОВОЕ СОБРАНИЕ</h4>
+            <div class="list_item" style="display: flex; justify-content: center; padding-left:20px; background: rgb(57, 181, 74); ">
+                <h4 style="color: #fff;">СОЗДАТЬ НОВОЕ СОБРАНИЕ</h4>
             </div>
             <div ng-repeat="meeting in meetings" ng-class="list_item_wrapper">
                 <div class="list_item" ng-class="meeting.classList" ng-click="setActiveMeeting(meeting)">
                     <div class="letter_content">
                         <h4>{{ meeting.title }}</h4>
-                        <time>{{ meeting.date }}</time>
+                        <time>{{ formatDate(meeting.planned_date) }}</time>
                     </div>
 
                     <div class="letter_author_avatar">
@@ -35,38 +35,31 @@
             </div>
             <div class="letter_wrapper">
                 <h1>{{ activeMeeting.title }}</h1>
-                <time><i class="fa fa-clock-o"></i> {{ activeMeeting.date }}</time>
+                <time><i class="fa fa-clock-o"></i> {{ formatDate(meeting.planned_date) }}</time>
 
-                <p>{{ activeMeeting.text }}</p>
+                <p>{{ activeMeeting.description }}</p>
 
                 <div style="padding: 34px 0">
                     <hr>
                     <div style="padding:34px;">
-                        <div ng-if="activeLetter.signatories.length > 0">
-
-                        </div>
-
-                        <div ng-if="activeLetter.signatories.length == 0">
-                            <h5>Ещё никто не подписал это письмо. Будьте первым кто это сделает!</h5>
-                        </div>
                     </div>
                     <hr>
                 </div>
 
                 <div style="padding: 5px 0">
                     <div style="padding:10px 34px;">
-                        <div ng-if="activeLetter.signatories.length > 0">
+                        <div ng-if="activeLetter.attachments.length > 0">
 
                         </div>
 
-                        <div ng-if="activeLetter.signatories.length == 0">
+                        <div ng-if="activeLetter.attachments.length == 0">
                             <h5>Вложений нет.</h5>
                         </div>
                     </div>
                 </div>
 
                 <div class="button_wrapper">
-                    <button class="base_button primary_button">Подписать письмо</button>
+                    <button class="base_button primary_button">ВОЙТИ В КОМНАТУ СОБРАНИЯ</button>
                 </div>
             </div>
         </div>

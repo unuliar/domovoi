@@ -2,7 +2,6 @@
     <div class="col-md-4 " style="height:91.6vh">
         <div class="list_wrapper chat_wrapper ">
             <div class="messages">
-                {{ messages }}
                 <div ng-repeat="message in messages">
                     <div class="chat-message" ng-class="{'outcoming': currentUser.id == message.user.id || message.author.id}">
                         <div class="chat-data">
