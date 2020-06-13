@@ -88,10 +88,10 @@ class MettingsApiController extends ApiController
         $data = json_decode($request->get('body'), true);
 
         $polRe = $this->getDoctrine()->getRepository(Poll::class);
+
         $accRe = $this->getDoctrine()->getRepository(Account::class);
-        $resRe = $this->getDoctrine()->getRepository(AccountPollResultRepository::class);
 
-
+        $resRe = $this->getDoctrine()->getRepository(AccountPollResult::class);
         /** @var Poll $poll */
         $poll = $polRe->findOneBy(["id" => $data["poll"]]);
 

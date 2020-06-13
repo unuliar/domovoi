@@ -62,4 +62,5 @@ app.controller('MeetingsController', function ($scope, $rootScope, $cookies) {
             }
         );
     };
+
 });
