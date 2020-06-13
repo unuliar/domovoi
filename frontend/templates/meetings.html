@@ -1,7 +1,7 @@
 <div class="row w-100 vh-100">
     <div class="col-md-4">
         <div class="list_wrapper">
-            <div class="list_item" style="display: flex; justify-content: center; padding-left:20px; background: rgb(57, 181, 74); ">
+            <div class="list_item" style="display: flex; justify-content: center; padding-left:20px; background: rgb(57, 181, 74); "  data-toggle="modal" data-target="#createMeetingModal">
                 <h4 style="color: #fff;">СОЗДАТЬ НОВОЕ СОБРАНИЕ</h4>
             </div>
             <div ng-repeat="meeting in meetings" ng-class="list_item_wrapper">
@@ -59,8 +59,65 @@
                 </div>
 
                 <div class="button_wrapper">
-                    <button class="base_button primary_button">ВОЙТИ В КОМНАТУ СОБРАНИЯ</button>
+                    <a href="#!/meeting/{{ activeMeeting.id }}"><button class="base_button primary_button">ВОЙТИ В КОМНАТУ СОБРАНИЯ</button></a>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createMeetingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createMeetingModalLabel">Создание нового собрания</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" ng-init="form={title: '', description: '', date: '', meetingQuestions: []}">
+                <label for="meeting_title">
+                    Заголовок
+                </label>
+                <input type="text" class="form-control" ng-model="form.title" id="meeting_title" />
+
+                <label for="meeting_desc">
+                    Описание
+                </label>
+                <textarea class="form-control" ng-model="form.description" id="meeting_desc"></textarea>
+
+                <label for="meeting_date">
+                    Дата начала
+                </label>
+                <input type="datetime-local" ng-model="form.date" class="form-control" id="meeting_date" />
+
+                <hr>
+                <h5>Вопросы для обсуждения/голосования</h5>
+                <button class="btn btn-success" ng-click="form.meetingQuestions.push({name: '', body: '', poll: false})"><i class="fa fa-plus"></i></button>
+
+                <div ng-repeat="question in form.meetingQuestions track by $index" class=" mt-4">
+                    <h4>Вопрос #{{$index + 1}}</h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" ng-model="question.name" placeholder="Вопрос" id="question_name_{{$index}}"/>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <textarea class="form-control" ng-model="question.body" placeholder="Описание вопроса" id="question_name_{{$index}}"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="question_poll_{{$index}}" style="position: relative; top: -2px;">Голосование по вопросу</label>
+                            <input type="checkbox" ng-model="question.poll" id="question_poll_{{$index}}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-success" ng-click="createMeeting(form)">Создать собрание</button>
             </div>
         </div>
     </div>

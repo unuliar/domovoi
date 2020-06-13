@@ -37,7 +37,7 @@ app.run(function ($rootScope, $http, $cookies) {
      *
      * @type {string}
      */
-    $rootScope.host = '35.224.154.143';
+    $rootScope.host = 'localhost';
 
     $rootScope.api_path = `http://${$rootScope.host}:81/api`;
 

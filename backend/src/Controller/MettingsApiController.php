@@ -140,26 +140,24 @@ class MettingsApiController extends ApiController
      */
     public function postMeeting(\Symfony\Component\HttpFoundation\Request $request)
     {
-        $data = $request->request->all();
+        $data = json_decode($request->get('body'), true);
 
-        $data["plannedDate"] =  new \DateTime($request->get('date')) ?? new \DateTime();
-        $data["plannedEndDate"] =  new \DateTime($request->get('date')) ?? new \DateTime("12.12.2099");
+        $data["plannedDate"] =  new \DateTime($data["date"]) ?? new \DateTime();
+        $data["plannedEndDate"] =  new \DateTime($data["date"]) ?? new \DateTime("12.12.2099");
 
         $accountRep = $this->getDoctrine()->getRepository(Account::class);
         /** @var Account $house */
         $account = $accountRep->findOneBy(['vkToken' => $request->get('token')]);
-        $house = $account->getOwnings()[0];
+        $house = $account->getOwnings()[0]->getHouse();
 
         $data["house"] = $house;
-        $data["title"] = $request->get('title');
-        $data["description"] = $request->get('desc');
 
         $rep = $this->getDoctrine()->getRepository(Meeting::class);
         /** @var Meeting $result */
         $result = $rep->createByArray($data);
         $this->em->persist($result);
 
-        foreach ($data["meetingQuestions"] as $question) {
+        foreach ($data['meetingQuestions'] as $question) {
             $q = new MeetingQuestion();
             $q->setBody($question["body"]);
             $q->setMeeting($result);

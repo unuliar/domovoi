@@ -7,31 +7,20 @@ app.controller('MeetingsController', function ($scope, $rootScope, $cookies) {
 
     $scope.meetings = [];
 
-    const getMeetings = () => {
-        $rootScope.setLoader(true);
+    $rootScope.setLoader(true);
 
-        $rootScope.apiCall(
-            'GET',
-            'meeting/getAllByOrg',
-            {
-                org: $rootScope.currentUser.ownings[0].house.org.id
-            },
-            (result) => {
-                $rootScope.setLoader(false);
-                console.log(result);
-                $scope.meetings = result.data.meetings;
-            }
-        );
-    };
-
-    if($rootScope.currentUser.ownings != undefined) {
-        getMeetings();
-    } else {
-        setTimeout(getMeetings, 1000);
-    }
-
-
-
+    $rootScope.apiCall(
+        'GET',
+        'meeting/getByUser',
+        {
+            token: $cookies.get('token')
+        },
+        (result) => {
+            $rootScope.setLoader(false);
+            console.log(result);
+            $scope.meetings = result.data.meetings;
+        }
+    );
     /**
      * Setting current letter to specified
      * @param id
@@ -44,5 +33,33 @@ app.controller('MeetingsController', function ($scope, $rootScope, $cookies) {
         meeting.classList = {"list_item_active": true};
 
         $scope.activeMeeting = meeting;
+    };
+
+    $scope.createMeeting = form => {
+        $rootScope.setLoader(true);
+
+        $rootScope.apiCall(
+            'POST',
+            'meeting/create',
+            {
+                body: JSON.stringify(form)
+            },
+            (result) => {
+                $rootScope.setLoader(false);
+
+                $rootScope.apiCall(
+                    'GET',
+                    'meeting/getByUser',
+                    {
+                        token: $cookies.get('token')
+                    },
+                    (result) => {
+                        $rootScope.setLoader(false);
+                        console.log(result);
+                        $scope.meetings = result.data.meetings;
+                    }
+                );
+            }
+        );
     };
 });
