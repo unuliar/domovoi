@@ -6,7 +6,7 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
 
     $rootScope.apiCall(
         'GET',
-        'meeting/getById',
+        'meeting/get',
         {
             id: $routeParams.meeting_id
         },
