@@ -1,0 +1,87 @@
+<div class="row w-100 vh-100" >
+    <div class="col-md-4">
+
+        <div class="list_wrapper">
+            <div ng-repeat="letter in currentUser.recieved_letters" ng-class="list_item_wrapper">
+                <div ng-init="letter.classList = {}" class="list_item" ng-class="letter.classList" ng-click="setActiveRequest(letter)">
+                    <div class="letter_content">
+                        <h4>Заявка №{{letter.id}}</h4>
+                        <time>{{formatDate(letter.created)}}</time>
+                    </div>
+
+                    <div class="letter_author_avatar">
+                        <h4></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div ng-if="activeRequest !== null">
+            <div class="letter_wrapper">
+                <h1>{{ activeRequest.subject }}</h1>
+                <time><i class="fa fa-clock-o"></i> {{ formatDate(activeRequest.created) }}</time>
+<br>
+<br>
+                <h5>Текущий статус: <b>{{ activeRequest.status }}</b></h5>
+                <h5>Адрес отправителя: <b>{{ activeRequest.creator.ownings[0].house.address}}</b></h5>
+                <p>{{ activeRequest.body }}</p>
+
+                <div style="padding: 34px 0">
+                    <h4>ХОД РАБОТ</h4>
+                    <hr>
+                    <div style="padding:34px; display: flex; flex-direction: column; line-height: 30px;">
+                        <span style="font-family: Jost">{{ formatDate(activeRequest.created) }} - Статус изменен на: <b>Ожидает</b></span>
+                        <span style="font-family: Jost" ng-repeat="status in activeRequest.letter_changes">{{ formatDate(status.date) }} - {{ status.changetype }} на: <b>{{ status.to_value }}</b></span>
+                    </div>
+                    <hr>
+                </div>
+                <div style="padding: 34px 0">
+                    <h4>ПРИКРЕПЛЕННЫЕ ФАЙЛЫ</h4>
+                    <div class="attachment_wrapper mt-3">
+                        <div class="attachment_image">
+                            <a href="../img/attachment.jpg"><img src="../img/attachment.jpg"/></a>
+                        </div>
+                        <div class="attachment_meta">
+                            <b>photo1.jpg</b>
+                            <h5>добавлено 14 июня, 2020</h5>
+                        </div>
+                    </div>
+                </div>
+                <div style="display:flex;">
+                    <button class="base_button primary_button mr-3" style="font-size: 11px; padding-left: 20px; padding-right:20px;" ng-click="assignWorker()">Авто-назначение исполнителя</button>
+                    <button class="base_button primary_button mr-3" style="font-size: 11px; padding-left: 20px; padding-right:20px;">Назначение исполнителя</button>
+                    <button class="base_button info_button" style="font-size: 11px; padding-left: 10px; padding-right:10px;" data-toggle="modal" data-target="#setStatusModal">Изменить статус</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="setStatusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createMeetingModalLabel">Изменение статуса заявки</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" ng-init="form={status: ''}">
+                <label for="meeting_title">
+                    Выберите статус
+                </label>
+                <select class="form-control" ng-model="form.status" id="meeting_title">
+                    <option value="Ожидает">Ожидает</option>
+                    <option value="Принято в работу">Принято в работу</option>
+                    <option value="Работа выполнена и ожидает проверки">Работа выполнена и ожидает проверки</option>
+                    <option value="Заявка закрыта">Заявка закрыта</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-success" ng-click="changeStatus(form)">Изменить статус</button>
+            </div>
+        </div>
+    </div>
+</div>

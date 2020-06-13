@@ -34,6 +34,11 @@ class LetterChanges
     private $fromValue;
 
     /**
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    private $date;
+
+    /**
      * @ORM\Column(type="string", length=1024, nullable=true)
      */
     private $toValue;
@@ -87,6 +92,24 @@ class LetterChanges
     public function setToValue(?string $toValue): self
     {
         $this->toValue = $toValue;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param mixed $date
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
 
         return $this;
     }

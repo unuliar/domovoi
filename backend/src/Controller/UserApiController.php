@@ -101,7 +101,12 @@ class UserApiController extends ApiController
 
         $this->em->flush();
 
-        $response = new RedirectResponse($this->getParameter("FRONT_URL"));
+        if($existing->getType() == 'UK_ADMIN') {
+            $response = new RedirectResponse($this->getParameter("UK_URL"));
+        } else {
+            $response = new RedirectResponse($this->getParameter("FRONT_URL"));
+        }
+
         $cookie = new Cookie('token', $tokenRes["access_token"], time()+36000, "/", null, null, false);
         $response->headers->setCookie($cookie);
 

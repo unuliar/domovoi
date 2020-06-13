@@ -90,6 +90,11 @@ class Account
     private $type = "OWNER";
 
     /**
+     * @ORM\OneToMany(targetEntity=Letter::class, mappedBy="initiator", orphanRemoval=true)
+     */
+    private $createdMeetings;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Organisation::class, inversedBy="workers")
      */
     private $Org;

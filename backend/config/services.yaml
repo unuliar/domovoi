@@ -7,6 +7,7 @@ parameters:
     VK_SECRET: '%env(VK_SECRET)%' # from .env file
     BACK_URL: '%env(BACK_URL)%' # from .env file
     FRONT_URL: '%env(FRONT_URL)%' # from .env file
+    UK_URL: '%env(UK_URL)%' # from .env file
 services:
     # default configuration for services in *this* file
     _defaults:

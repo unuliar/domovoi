@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="domovoi-app">
+<head>
+    <meta charset="UTF-8">
+    <title>Домовой</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular-route.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular-cookies.min.js" ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+    <script src="libs/moment.js" ></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+    <script src="js/App.js"></script>
+
+    <!-- controllers -->
+    <script src="js/controllers/LetterController.js"></script>
+    <script src="js/controllers/SidebarController.js"></script>
+    <script src="js/controllers/OrganizationController.js"></script>
+    <script src="js/controllers/IndexController.js"></script>
+    <script src="js/controllers/MeetingsController.js"></script>
+    <script src="js/controllers/MeetingsRoomController.js"></script>
+    <script src="js/controllers/PaymentsController.js"></script>
+    <script src="js/controllers/RequestsController.js"></script>
+    <!-- end controllers -->
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="libs/fa/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+<body>
+
+<div class="overlay" ng-if="loaderState">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto;  display: block;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+        <path fill="none" stroke="#85a2b6" stroke-width="8" stroke-dasharray="42.76482137044271 42.76482137044271" d="M24.3 30C11.4 30 5 43.3 5 50s6.4 20 19.3 20c19.3 0 32.1-40 51.4-40 C88.6 30 95 43.3 95 50s-6.4 20-19.3 20C56.4 70 43.6 30 24.3 30z" stroke-linecap="round" style="transform:scale(0.8);transform-origin:50px 50px">
+            <animate attributeName="stroke-dashoffset" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0;256.58892822265625"></animate>
+        </path>
+    </svg>
+</div>
+
+<div class="container-fluid">
+    <div class="row w-100 h-100">
+        <div class="col-md-2 col-sm-12 col-xs-12">
+            <div class="sidebar position-fixed-responsive" ng-controller="SidebarController">
+                <div class="sidebar__header">
+                    <a href="/"><img src="img/logo.png" alt="Domovoi logo" /></a>
+                </div>
+
+                <div class="sidebar__person_data">
+                    <div class="person_avatar">
+                        <img src="{{ currentUser.photo_url }}" alt="Person avatar" />
+                    </div>
+
+                    <div class="person_info">
+                        <h3>{{ currentUser.last_name }} {{ currentUser.first_name }}</h3>
+                        <p style="text-align: center; font-family: Jost; color: #9ea0a6;">ООО "ЖКХ"</p>
+                    </div>
+
+                    <div class="tabs_wrapper">
+                        <div class="tabs">
+                            <a href="#"><img src="img/icons/settings.png" /></a>
+                            <a href="#"><img src="img/icons/messages.png" /></a>
+                            <a href="#"><img src="img/icons/notifications.png" /></a>
+                            <a href="javascript:void;" ng-click="logout();"><img src="img/icons/signout.png" /></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar__nav">
+                    <h3>НАВИГАЦИЯ</h3>
+                    <div class="nav">
+                        <span><a href="/#!/index"><i class="fa fa-tachometer" style="margin-right:13px;" aria-hidden="true"></i> Главная</a></span>
+                        <span><a href="/#!/meetings"><i class="fa fa-home circle-uk" style="margin-right:13px;" aria-hidden="true"></i> Собрания жильцов</a></span>
+                        <span><a href="/#!/letters"><i class="fa fa-envelope circle-payments" style="margin-right:12px;" aria-hidden="true"></i> Коллективные письма</a></span>
+                        <span><a href="/#!/requests"><i class="fa fa-wrench circle-people" style="margin-right:11px;" aria-hidden="true"></i> Список заявок </a></span>
+                        <span><i class="fa fa-file-text-o circle-documents" style="margin-left: 4px; margin-right: 10px;" aria-hidden="true"></i> Документы</span>
+                    </div>
+                </div>
+
+                <div class="sidebar__people">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 col-sm-12 col-xs-12">
+            <div class="content_header sticky-top bg-white">
+                <h3>{{ pageTitle }}</h3>
+            </div>
+
+            <ng-view></ng-view>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

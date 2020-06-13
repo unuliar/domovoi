@@ -483,6 +483,7 @@ button:focus {
 .uk_data .center {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
     text-align: center;
 }
@@ -754,4 +755,22 @@ button:focus {
     padding: 12px;
     font-size: 11px;
     line-height:12px;
+}
+
+.attachment_wrapper {
+    display: flex;
+    width: 400px;
+}
+
+.attachment_wrapper .attachment_image img {
+    width: 100px;
+    height: auto;
+    border-radius: 12px;
+}
+
+.attachment_wrapper .attachment_meta {
+    margin-left: 15px;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
 }

@@ -33,7 +33,7 @@
                     <a href="#"><img src="../img/icons/report.png"></a>
                 </div>
             </div>
-            <div class="letter_wrapper">
+            <div class="letter_wrapper overflow-y">
                 <h1>{{ activeMeeting.title }}</h1>
                 <time><i class="fa fa-clock-o"></i> {{ formatDate(activeMeeting.planned_date) }}</time>
 
@@ -41,26 +41,51 @@
 
                 <div style="padding: 34px 0">
                     <hr>
-                    <div style="padding:34px;">
-                    </div>
-                    <hr>
-                </div>
+                    <h4>ПОВЕСТКА ДНЯ</h4>
+                    <div style="padding:34px">
+                        <div ng-repeat="q in activeMeeting.meeting_questions">
+                            <div class="poll_item">
+                                <div class="row">
+                                    <div class="col-md-12"><h4>{{ q.subject }}</h4></div>
+                                    <div class="col-md-12"><span>{{ q.body }}</span></div>
+                                </div>
+                                <br>
 
-                <div style="padding: 5px 0">
-                    <div style="padding:10px 34px;">
-                        <div ng-if="activeLetter.attachments.length > 0">
+                                <div style="padding: 5px 0">
+                                    <div style="padding:10px 10px;">
+                                        <div ng-if="q.attachments.length > 0">
 
+                                        </div>
+
+                                        <div ng-if="q.attachments.length == 0">
+                                            <h5>Вложений нет.</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                        <div ng-if="activeLetter.attachments.length == 0">
-                            <h5>Вложений нет.</h5>
-                        </div>
                     </div>
                 </div>
+                <hr>
+            </div>
 
-                <div class="button_wrapper">
-                    <a href="#!/meeting/{{ activeMeeting.id }}"><button class="base_button primary_button">ВОЙТИ В КОМНАТУ СОБРАНИЯ</button></a>
+
+            <div style="padding: 5px 0">
+                <div style="padding:10px 34px;">
+                    <div ng-if="activeLetter.attachments.length > 0">
+
+                    </div>
+
+                    <div ng-if="activeLetter.attachments.length == 0">
+                        <h5>Вложений нет.</h5>
+                    </div>
                 </div>
+            </div>
+
+            <div class="button_wrapper" ng-if="!activeMeeting.archieved">
+                <a href="#!/meeting/{{ activeMeeting.id }}">
+                    <button class="base_button primary_button">ВОЙТИ В КОМНАТУ СОБРАНИЯ</button>
+                </a>
             </div>
         </div>
     </div>

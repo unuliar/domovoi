@@ -157,6 +157,8 @@ class MettingsApiController extends ApiController
         $house = $account->getOwnings()[0]->getHouse();
 
         $data["house"] = $house;
+        $data["initiator"] = $account;
+        $data["archieved"] = false;
 
         $rep = $this->getDoctrine()->getRepository(Meeting::class);
         /** @var Meeting $result */
@@ -183,4 +185,25 @@ class MettingsApiController extends ApiController
         return $this->handleView($this->view(['status' => 'ok', 'id' => $result->getId()], Response::HTTP_CREATED));
     }
 
+
+    /**
+     * @Rest\Post("/api/meeting/close")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    public function closeMeeting(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $meetingRepo = $this->getDoctrine()->getRepository(Meeting::class);
+
+        /** @var Meeting $meeting */
+        $meeting = $meetingRepo->findOneBy(['id' => $request->get('meeting_id')]);
+        $meeting->setArchieved(true);
+
+        $this->em->persist($meeting);
+        $this->em->flush();
+
+        return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_OK));
+    }
 }

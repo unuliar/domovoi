@@ -8,11 +8,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular-route.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular-cookies.min.js" ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
     <script src="libs/moment.js" ></script>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
     <script src="js/App.js"></script>
+
     <!-- controllers -->
     <script src="js/controllers/LetterController.js"></script>
     <script src="js/controllers/SidebarController.js"></script>
@@ -21,7 +25,9 @@
     <script src="js/controllers/MeetingsController.js"></script>
     <script src="js/controllers/MeetingProtocolController.js"></script>
     <script src="js/controllers/MeetingsRoomController.js"></script>
-
+    <script src="js/controllers/PaymentsController.js"></script>
+    <script src="js/controllers/RequestsController.js"></script>
+    <!-- end controllers -->
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="libs/fa/css/font-awesome.min.css" rel="stylesheet">
@@ -71,8 +77,8 @@
                         <span><a href="/#!/index"><i class="fa fa-tachometer" style="margin-right:13px;" aria-hidden="true"></i> Главная</a></span>
                         <span><a href="/#!/organizations"><i class="fa fa-home circle-uk" style="margin-right:13px;" aria-hidden="true"></i> Управляющая компания</a></span>
                         <span><a href="/#!/letters"><i class="fa fa-envelope circle-payments" style="margin-right:12px;" aria-hidden="true"></i> Коллективные письма</a></span>
-                        <span><i class="fa fa-users circle-people" style="margin-right:11px;" aria-hidden="true"></i> Жильцы</span>
-                        <span><i class="fa fa-newspaper-o circle-news" style="margin-right:9px;" aria-hidden="true"></i> Новости</span>
+                        <span><a href="/#!/requests"><i class="fa fa-wrench circle-people" style="margin-right:11px;" aria-hidden="true"></i> Мои заявки </a></span>
+                        <span><a href="/#!/payments"><i class="fa fa-newspaper-o circle-news" style="margin-right:9px;" aria-hidden="true"></i> Платежи за ЖКХ </a></span>
                         <span><i class="fa fa-file-text-o circle-documents" style="margin-left: 4px; margin-right: 10px;" aria-hidden="true"></i> Документы</span>
                     </div>
                 </div>

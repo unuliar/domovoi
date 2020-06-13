@@ -65,6 +65,17 @@ class Meeting
      */
     private $title;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Account::class, inversedBy="createdMeetings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $initiator;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $archieved;
+
     public function __construct()
     {
         $this->Participants = new ArrayCollection();
@@ -243,5 +254,37 @@ class Meeting
         $this->title = $title;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInitiator()
+    {
+        return $this->initiator;
+    }
+
+    /**
+     * @param mixed $initiators
+     */
+    public function setInitiator($initiator): void
+    {
+        $this->initiator = $initiator;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getArchieved()
+    {
+        return $this->archieved;
+    }
+
+    /**
+     * @param mixed $archieved
+     */
+    public function setArchieved($archieved): void
+    {
+        $this->archieved = $archieved;
     }
 }

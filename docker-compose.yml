@@ -45,6 +45,23 @@ services:
       - "./frontend:/var/www/frontend"
       # Так же линкуем конфиг для nginx
       - "./docker/frontend/conf/nginx:/etc/nginx/sites-available"
+  uk_frontend:
+    # Собираем из Dockerfile
+    build:
+      # Корнем указываем корень основного проекта
+      context: .
+      dockerfile: ./docker/frontend/Dockerfile
+    # Показываем наружу 80 порт
+    ports:
+      - "82:80"
+    # Подключаем к общей сети с другими контейнерами
+    networks:
+      - default
+    # Линкуем внешнюю папку с исходниками внутрь
+    volumes:
+      - "./uk_frontend:/var/www/frontend"
+      # Так же линкуем конфиг для nginx
+      - "./docker/frontend/conf/nginx:/etc/nginx/sites-available"
   db:
     image: mysql:5.7
     # Подключаем к общей сети с другими контейнерами

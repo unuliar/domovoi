@@ -33,6 +33,18 @@ var app = angular.module('domovoi-app', ['ngRoute', 'ngCookies']).config(functio
             controller: 'MeetingProtocolController'
         });
 
+    $routeProvider.when('/payments',
+        {
+            templateUrl: '/templates/payments.html',
+            controller: 'PaymentsController'
+        });
+
+    $routeProvider.when('/requests',
+        {
+            templateUrl: '/templates/requests.html',
+            controller: 'RequestsController'
+        });
+
     $routeProvider.otherwise({redirectTo: '/index'});
 });
 

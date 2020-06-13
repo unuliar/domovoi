@@ -1,0 +1,160 @@
+<div class="row w-100 vh-100">
+    <div class="col-md-4">
+        <div class="list_wrapper">
+            <div ng-repeat="meeting in meetings" ng-class="list_item_wrapper">
+                <div class="list_item" ng-class="meeting.classList" ng-click="setActiveMeeting(meeting)">
+                    <div class="letter_content">
+                        <h4>{{ meeting.title }}</h4>
+                        <time>{{ formatDate(meeting.planned_date) }}</time>
+                    </div>
+
+                    <div class="letter_author_avatar">
+                        <img src="{{ meeting.user.avatar }}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div ng-if="activeMeeting !== null">
+            <div class="letter_person_block">
+                <div class="letter_person_info">
+                    <img src="{{ activeMeeting.user.avatar }}"/>
+
+                    <h4>{{ activeMeeting.user.last_name }} {{ activeMeeting.user.name }}</h4>
+                </div>
+
+                <div class="letter_tabs">
+                    <a href="#"><img src="../img/icons/messages.png"></a>
+                    <a href="#"><img src="../img/icons/report.png"></a>
+                </div>
+            </div>
+            <div class="letter_wrapper overflow-y">
+                <h1>{{ activeMeeting.title }}</h1>
+                <time><i class="fa fa-clock-o"></i> {{ formatDate(activeMeeting.planned_date) }}</time>
+
+                <p>{{ activeMeeting.description }}</p>
+
+                <div style="padding: 34px 0">
+                    <hr>
+                    <h4>ПОВЕСТКА ДНЯ</h4>
+                    <div style="padding:34px">
+                        <div ng-repeat="q in activeMeeting.meeting_questions">
+                            <div class="poll_item">
+                                <div class="row">
+                                    <div class="col-md-12"><h4>{{ q.subject }}</h4></div>
+                                    <div class="col-md-12"><span>{{ q.body }}</span></div>
+                                </div>
+                                <br>
+
+                                <div style="padding: 5px 0">
+                                    <div style="padding:10px 10px;">
+                                        <div ng-if="q.attachments.length > 0">
+
+                                        </div>
+
+                                        <div ng-if="q.attachments.length == 0">
+                                            <h5>Вложений нет.</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+
+
+            <div style="padding: 5px 0">
+                <div style="padding:10px 34px;">
+                    <div ng-if="activeLetter.attachments.length > 0">
+
+                    </div>
+
+                    <div ng-if="activeLetter.attachments.length == 0">
+                        <h5>Вложений нет.</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button_wrapper">
+                <a href="#!/meeting/{{ activeMeeting.id }}">
+                    <button class="base_button primary_button">ВОЙТИ В КОМНАТУ СОБРАНИЯ</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="createMeetingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createMeetingModalLabel">Создание нового собрания</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" ng-init="form={title: '', description: '', date: '', meetingQuestions: []}">
+                <label for="meeting_title">
+                    Заголовок
+                </label>
+                <input type="text" class="form-control" ng-model="form.title" id="meeting_title"/>
+
+                <label for="meeting_desc">
+                    Описание
+                </label>
+                <textarea class="form-control" ng-model="form.description" id="meeting_desc"></textarea>
+
+                <label for="meeting_date">
+                    Дата начала
+                </label>
+                <input type="datetime-local" ng-model="form.date" class="form-control" id="meeting_date"/>
+                <hr>
+                <h5>Вопросы для обсуждения/голосования</h5>
+                <button class="btn btn-success"
+                        ng-click="form.meetingQuestions.push({name: '', body: '', poll: false})"><i
+                            class="fa fa-plus"></i></button>
+
+                <div ng-repeat="question in form.meetingQuestions track by $index" class=" mt-4">
+                    <h4>Вопрос #{{$index + 1}}</h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" ng-model="question.name" placeholder="Вопрос"
+                                   id="question_name_{{$index}}"/>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <textarea class="form-control" ng-model="question.body" placeholder="Описание вопроса"
+                                      id="question_name_{{$index}}"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="attch{{$index}}">
+                                Вложения
+                            </label>
+                            <input type="file" file="question.attachmentsx" id="attch{{$index}}"/>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="question_poll_{{$index}}" style="position: relative; top: -2px;">Голосование по
+                                вопросу</label>
+                            <input type="checkbox" ng-model="question.poll" id="question_poll_{{$index}}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-success" ng-click="createMeeting(form)">Создать собрание</button>
+            </div>
+        </div>
+    </div>
+</div>
