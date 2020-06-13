@@ -11,6 +11,9 @@ use App\Entity\House;
 use App\Entity\Meeting;
 use App\Entity\MeetingQuestion;
 use App\Entity\Poll;
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\Serializer;
+use JMS\Serializer\SerializerBuilder;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
 class MettingsApiController extends ApiController
@@ -25,7 +28,15 @@ class MettingsApiController extends ApiController
     {
         $meetRep = $this->getDoctrine()->getRepository(Meeting::class);
 
-        return $this->handleView($this->view(['status' => 'ok', 'meeting' => $meetRep->findOneBy(["id" =>  $request->get("id")])]));
+        $meet = $meetRep->findOneBy(["id" =>  $request->get("id")]);
+
+
+        $serializer =  SerializerBuilder::create()->build();
+
+
+        $res = $serializer->serialize($meet, 'json', SerializationContext::create()->setGroups(array('Default')));
+
+        return $this->handleView($this->view(['status' => 'ok', 'meeting' => $res]));
     }
 
     /**
