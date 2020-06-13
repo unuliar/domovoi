@@ -5,22 +5,32 @@ app.controller('MeetingsController', function ($scope, $rootScope, $cookies) {
 
     $scope.activeMeeting = null;
 
-    $scope.meetings = [
-        {
-            id: 1,
-            title: "Очень дорого",
-            date: "23 мая, 2020",
-            text: "",
-            user: {
-                name: "Николай",
-                last_name: "Иванов",
-                email: "nikolai.ivanov@mail.ru",
-                avatar: '/img/avatars/demo1.png'
+    $scope.meetings = [];
+
+    const getMeetings = () => {
+        $rootScope.setLoader(true);
+
+        $rootScope.apiCall(
+            'GET',
+            'meeting/getAllByOrg',
+            {
+                org: $rootScope.currentUser.ownings[0].house.org.id
             },
-            signatories: [],
-            attachments: [],
-            classList: {}
-        }];
+            (result) => {
+                $rootScope.setLoader(false);
+                console.log(result);
+                $scope.meetings = result.data.meetings;
+            }
+        );
+    };
+
+    if($rootScope.currentUser.ownings != undefined) {
+        getMeetings();
+    } else {
+        setTimeout(getMeetings, 1000);
+    }
+
+
 
     /**
      * Setting current letter to specified
