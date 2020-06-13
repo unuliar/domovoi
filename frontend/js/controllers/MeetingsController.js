@@ -27,7 +27,7 @@ app.controller('MeetingsController', function ($scope, $rootScope, $cookies) {
      * @param id
      */
     $scope.setActiveMeeting = meeting => {
-        $scope.meetings.forEach((letter) => {
+        $scope.meetings.forEach((meeting) => {
             meeting.classList = {};
         });
 
