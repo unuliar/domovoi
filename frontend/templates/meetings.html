@@ -90,7 +90,6 @@
                     Дата начала
                 </label>
                 <input type="datetime-local" ng-model="form.date" class="form-control" id="meeting_date" />
-
                 <hr>
                 <h5>Вопросы для обсуждения/голосования</h5>
                 <button class="btn btn-success" ng-click="form.meetingQuestions.push({name: '', body: '', poll: false})"><i class="fa fa-plus"></i></button>
@@ -105,6 +104,14 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <textarea class="form-control" ng-model="question.body" placeholder="Описание вопроса" id="question_name_{{$index}}"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="attch{{$index}}">
+                                Вложения
+                            </label>
+                            <input type="file" file="question.attachmentsx" id="attch{{$index}}"  />
                         </div>
                     </div>
                     <div class="row mt-3">

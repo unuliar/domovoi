@@ -387,6 +387,9 @@ a:hover {
     background: rgba(78, 120, 253, .8);
 }
 
+.primary_button:disabled {
+    background: rgba(74, 142, 255, 0.38);
+}
 
 .success_button {
     background-color: rgb(57, 181, 74);
@@ -396,13 +399,20 @@ a:hover {
     background: rgba(57, 181, 74, .8);
 }
 
-
+.success_button:disabled {
+    background: rgba(35, 105, 47, 0.38);
+}
 .info_button {
     background-color: rgb(140, 78, 253);
 }
 
 .info_button:hover {
     background: rgba(140, 78, 253, .8);
+}
+
+
+.info_button:disabled {
+    background: rgba(140, 78, 253, 0.38);
 }
 
 .warning_button {
@@ -413,6 +423,9 @@ a:hover {
     background: rgba(253, 123, 78, .8);
 }
 
+.warning_button:disabled {
+    background: rgba(253, 123, 78, 0.36);
+}
 .danger_button {
     background-color: rgb(253, 78, 78);
 }
@@ -421,7 +434,9 @@ a:hover {
     background: rgba(253, 78, 78, .8);
 }
 
-
+.danger_button:disabled {
+    background: rgba(253, 78, 78, .36);
+}
 button:focus {
     outline:none;
 }

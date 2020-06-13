@@ -1,4 +1,4 @@
-app.controller('MeetingsRoomController', function ($scope, $rootScope, $routeParams) {
+app.controller('MeetingsRoomController', function ($scope, $rootScope, $routeParams, $cookies) {
     $rootScope.checkAuth();
     $rootScope.setLoader(true);
 
@@ -39,6 +39,30 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
             $rootScope.setLoader(false);
             $scope.currentMeeting = result.data.meeting;
                 $scope.messages = result.data.meeting.chat_messages;
+
+                for (let q of $scope.currentMeeting.meeting_questions) {
+                    if(q.poll) {
+                        let agreed = 0;
+                        let disagreed = 0;
+                        let ignored = 0;
+                        for(let result of q.poll._poll_results) {
+                            let numberVotes = result.account.ownings[0].size;
+                            if(result.result == -1) {
+                                disagreed += numberVotes;
+                            }
+                            if(result.result == 1) {
+                                agreed += numberVotes;
+                            }
+                            if(result.result == 0) {
+                                ignored += numberVotes;
+                            }
+                        }
+
+                        let all = (agreed+disagreed+ ignored);
+                        q.poll.quorum = 100* parseFloat(all.toString()) / $scope.currentMeeting.house.residential_premise_total_square;
+                        q.poll.percent = 100* parseFloat(agreed.toString()) / (agreed+disagreed);
+                    }
+                }
 
         }
     );
@@ -86,18 +110,32 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
         $scope.socket = new_socket;
     };
 
-    $scope.postVote = function(result, pollId) {
-        $rootScope.apiPostCall(
+    $scope.postVote = function (result, pollId) {
+        $rootScope.apiCall(
+            'POST',
             'meeting/vote',
             {
-                poll: pollId,
-                vote: result
+                body: JSON.stringify({
+                    poll: pollId,
+                    vote: result,
+                    token: $cookies.get('token'),
+                })
             },
             (result) => {
-                console.log(result);
-
+              console.log(result);
             }
         );
+    };
+
+    $scope.checkUserVoted = function(poll) {
+        let tok = $cookies.get('token');
+        for(let result of poll._poll_results) {
+            if(result.account.vk_token == tok) {
+                return true;
+            }
+        }
+        return false;
+
     };
 
     $scope.sendMessage = () => {

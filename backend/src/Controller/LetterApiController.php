@@ -29,7 +29,7 @@ class LetterApiController extends ApiController
     {
         $accRep = $this->getDoctrine()->getRepository(Account::class);
 
-        $data = $request->request->all();
+        $data = json_decode($request->get('body'), true);
         $data["creator"] = $accRep->findOneBy(["vkToken" => $data["token"]]);
         $user = $data["creator"];
 
@@ -74,7 +74,7 @@ class LetterApiController extends ApiController
         $accRep = $this->getDoctrine()->getRepository(Account::class);
         $letRep = $this->getDoctrine()->getRepository(Letter::class);
 
-        $data = $request->request->all();
+        $data = json_decode($request->get('body'), true);
         /** @var Account $acc */
         $acc = $accRep->findOneBy(["vkToken" => $data["token"]]);
         /** @var Letter $letter */
@@ -104,7 +104,7 @@ class LetterApiController extends ApiController
         $accRep = $this->getDoctrine()->getRepository(Account::class);
         $letRep = $this->getDoctrine()->getRepository(Letter::class);
 
-        $data = $request->request->all();
+        $data = json_decode($request->get('body'), true);
         /** @var Account $acc */
         $acc = $accRep->findOneBy(["id" => $data["worker"]]);
         /** @var Letter $letter */
@@ -136,7 +136,7 @@ class LetterApiController extends ApiController
     {
         $letRep = $this->getDoctrine()->getRepository(Letter::class);
 
-        $data = $request->request->all();
+        $data = json_decode($request->get('body'), true);
         /** @var Letter $letter */
         $letter= $letRep->findOneBy(["id" => $data["letter"]]);
         $old = $letter->getStatus();
