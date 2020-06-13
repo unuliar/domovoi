@@ -259,17 +259,17 @@ class Meeting
     /**
      * @return mixed
      */
-    public function getInitiators()
+    public function getInitiator()
     {
-        return $this->initiators;
+        return $this->initiator;
     }
 
     /**
      * @param mixed $initiators
      */
-    public function setInitiators($initiators): void
+    public function setInitiator($initiator): void
     {
-        $this->initiators = $initiators;
+        $this->initiator = $initiator;
     }
 
     /**
