@@ -15,6 +15,8 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
     $scope.messages = [];
 
     $scope.socket.onmessage = (event) => {
+        console.log(event);
+
         const isScrolledToBottom = chatBox.scrollHeight - chatBox.clientHeight <= chatBox.scrollTop + 1;
 
         let message = JSON.parse(event.data);
