@@ -35,7 +35,7 @@
             </div>
             <div class="letter_wrapper overflow-y">
                 <h1>{{ activeMeeting.title }}</h1>
-                <time><i class="fa fa-clock-o"></i> {{ formatDate(activeMeeting.planned_date) }}</time>
+                <time><i class="fa fa-clock-o"></i> {{ formatDate(activeMeeting.planned_date) }} <span class="badge badge-primary" ng-if="activeMeeting.archieved">ЗАВЕРШЕНО</span></time>
 
                 <p>{{ activeMeeting.description }}</p>
 
