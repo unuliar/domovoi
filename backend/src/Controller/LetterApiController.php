@@ -30,17 +30,17 @@ class LetterApiController extends ApiController
         $accRep = $this->getDoctrine()->getRepository(Account::class);
 
         $data = json_decode($request->get('body'), true);
-        $data["creator"] = $accRep->findOneBy(["vkToken" => $data["token"]]);
+        $data["creator"] = $accRep->findOneBy(["vkToken" => $request->get("token")]);
         $user = $data["creator"];
 
-        if(trim($data["reciever"]) != '') {
+        if(isset($data['receiver']) && trim($data["reciever"]) != '') {
             $data["reciever"] = $accRep->findOneBy(["id" => $data["reciever"]]);
         } else {
             /** @var Account $user */
-            $data["reciever"] = $accRep->findOneBy(["type" => "UK_ADMIN", "org" => $user->getOwnings()[0]->getHouse()->getOrg()]);
+            $data["reciever"] = $accRep->findOneBy(["type" => "UK_ADMIN", "Org" => $user->getOwnings()[0]->getHouse()->getOrg()]);
         }
         $data["created"] = new \DateTime();
-        if(trim($data["house"]) != '') {
+        if(isset($data['receiver']) && trim($data["house"]) != '') {
             $data["house"] = $accRep->findOneBy(["id" => $data["house"]]);
         } else {
             $data["house"] = $user->getOwnings()[0]->getHouse();
@@ -113,12 +113,14 @@ class LetterApiController extends ApiController
         $letter->setWorker($acc);
         $this->em->persist($letter);
 
+        $letter->setStatus('Назначен исполнитель');
 
         $change = new LetterChanges();
         $change->setChangetype("Исполнитель изменен");
         $change->setLetter($letter);
         $change->setFromValue($old);
-        $change->setToValue((string)$acc->getId());
+        $change->setDate(new \DateTime());
+        $change->setToValue((string)sprintf("%s %s", $acc->getLastName(), $acc->getFirstName()));
         $this->em->persist($change);
 
         $this->em->flush();
@@ -149,6 +151,7 @@ class LetterApiController extends ApiController
         $change->setChangetype("Статус изменен");
         $change->setLetter($letter);
         $change->setFromValue($old);
+        $change->setDate(new \DateTime());
         $change->setToValue($new);
         $this->em->persist($change);
 

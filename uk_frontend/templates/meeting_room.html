@@ -1,0 +1,75 @@
+<div class="row w-100" ng-controller="MeetingsRoomController">
+    <div class="col-md-4 " style="height:91.6vh">
+        <div class="list_wrapper chat_wrapper ">
+            <div class="messages" id="chatbox">
+                <div ng-repeat="message in messages">
+                    <div class="chat-message" ng-class="{'outcoming': currentUser.id == message.user.id || currentUser.id == message.author.id}">
+                        <div class="chat-data">
+                            <div class="chat-message-avatar"
+                                 style="background-image: url({{message.user.photo_url || message.author.photo_url}})"></div>
+                            <div class="chat-bubble">
+                                {{ message.text || message.msg }}
+                            </div>
+                        </div>
+                        <div class="chat-message-time">
+                            <span>{{ (message.send_time || message.time ) | date:'HH:mm'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message_box_wrapper">
+                <div class="message_box">
+                    <input type="text" id="chatbox" ng-model="messageBox" style="width:80%;">
+                    <button style="width:8%;"><i class="fa fa-paperclip" aria-hidden="true"></i></button>
+                    <button style="width:8%;" ng-click="sendMessage()"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8" style="height: 91.6vh; overflow: auto">
+        <div class="letter_wrapper">
+            <h1>{{ currentMeeting.title }}</h1>
+            <time><i class="fa fa-clock-o"></i> {{ currentMeeting.planned_date | date:'dd.MM.yyyy HH:mm'}}</time>
+
+            <p>{{ currentMeeting.description }}</p>
+
+            <div style="padding: 34px 0" ng-if="currentMeeting.meeting_questions.length > 0">
+                <hr>
+                <h4>ПОВЕСТКА ДНЯ</h4>
+                <div style="padding:34px;">
+
+                    <div ng-repeat="q in currentMeeting.meeting_questions">
+                        <div class="poll_item">
+                            <div class="row">
+                                <div class="col-md-12"><h4>{{ q.subject }}</h4></div>
+                                <div class="col-md-12"><span>{{ q.body }}</span></div>
+                            </div>
+                            <br>
+                            <div  ng-if="q.poll.id" >
+                                <div class="col-md-12"><span><b>Проголосовало:</b> {{ (q.poll.quorum ? q.poll.quorum : 0) |number:1}} %</span></div>
+                            </div>
+                            <div  ng-if="q.poll.id" class="progress" style="height: 25px;">
+                                <div class="progress-bar" role="progressbar" style="width: {{q.poll.percent ? q.poll.percent : 0 }}%;" aria-valuenow="{{q.poll.percent ? q.poll.percent : 0}}" aria-valuemin="0" aria-valuemax="100">{{q.poll.percent ? q.poll.percent : 0}}%</div>
+                            </div>
+                            <hr>
+                            <div style="padding: 5px 0">
+                                <div style="padding:10px 10px;">
+                                    <div ng-if="q.attachments.length > 0">
+
+                                    </div>
+
+                                    <div ng-if="q.attachments.length == 0">
+                                        <h5>Вложений нет.</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

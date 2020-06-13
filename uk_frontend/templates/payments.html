@@ -1,0 +1,76 @@
+<div class="row w-100 vh-100" >
+    <div class="col-md-4">
+        <div class="list_wrapper">
+            <div ng-repeat="payment in payments" ng-class="list_item_wrapper">
+                <div class="list_item" ng-class="payment.classList" ng-click="setActivePayment(payment)">
+                    <div class="letter_content">
+                        <h4>№{{payment.number}}</h4>
+                        <time>{{payment.period}}</time>
+                    </div>
+
+                    <div class="letter_author_avatar">
+                        <h4>{{ ((payment.summaries.hot_water * 67)+ (payment.summaries.cold_water * 20.8) + (payment.summaries.waterback * 10.76) +
+                            (payment.summaries.energy * 1.81) + (payment.summaries.energy_nigh * 0.84)).toFixed(1) }} руб.</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div ng-if="activePayment !== null">
+            <div class="letter_wrapper">
+                <h1>Квитанция №{{ activePayment.number }} <i class="fa fa-print" style="color:#a0a0a0;"></i></h1>
+                <time><i class="fa fa-clock-o"></i> {{ activePayment.period }}</time>
+
+                <br>
+                <br>
+                <table class="table table-stripped">
+                    <thead>
+                        <tr>
+                            <th>Наименование услуги</th>
+                            <th>Тариф</th>
+                            <th>Объем услуг</th>
+                            <th>Начислено за период</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Горячая вода</td>
+                            <td>67</td>
+                            <td>{{ activePayment.summaries.hot_water }}</td>
+                            <td>{{ (activePayment.summaries.hot_water * 67).toFixed(1) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Холодная вода</td>
+                            <td>20.8</td>
+                            <td>{{ activePayment.summaries.cold_water }}</td>
+                            <td>{{ (activePayment.summaries.cold_water * 20.8).toFixed(1) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Водоотведение</td>
+                            <td>10.76</td>
+                            <td>{{ activePayment.summaries.waterback }}</td>
+                            <td>{{ (activePayment.summaries.waterback * 10.76).toFixed(1) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Электроэнергия</td>
+                            <td>1.81</td>
+                            <td>{{ activePayment.summaries.energy }}</td>
+                            <td>{{ (activePayment.summaries.energy * 1.81).toFixed(1) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Электроэнергия (ночь)</td>
+                            <td>0.84</td>
+                            <td>{{ activePayment.summaries.energy_nigh }}</td>
+                            <td>{{ (activePayment.summaries.energy_nigh * 0.84).toFixed(1) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="button_wrapper">
+                    <button class="base_button primary_button">ОПЛАТИТЬ ОНЛАЙН</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

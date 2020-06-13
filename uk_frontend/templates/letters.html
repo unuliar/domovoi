@@ -1,0 +1,67 @@
+<div class="row w-100 vh-100" ng-controller="LetterController">
+    <div class="col-md-4">
+        <div class="list_wrapper">
+            <div ng-repeat="letter in letters" ng-class="list_item_wrapper">
+                <div class="list_item" ng-class="letter.classList" ng-click="setActiveLetter(letter)">
+                    <div class="letter_content">
+                        <h4>{{ letter.title }}</h4>
+                        <time>{{ letter.date }}</time>
+                    </div>
+
+                    <div class="letter_author_avatar">
+                        <img src="{{ letter.user.avatar }}" style="border-radius: 50%"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div ng-if="activeLetter !== null">
+            <div class="letter_person_block">
+                <div class="letter_person_info">
+                    <img src="{{ activeLetter.user.avatar }}" style="border-radius: 50%"/>
+
+                    <h4>{{ activeLetter.user.last_name }} {{ activeLetter.user.name }}</h4>
+                </div>
+
+                <div class="letter_tabs">
+                    <a href="#"><img src="../img/icons/messages.png"></a>
+                    <a href="#"><img src="../img/icons/report.png"></a>
+                </div>
+            </div>
+            <div class="letter_wrapper">
+                <h1>{{ activeLetter.title }}</h1>
+                <time><i class="fa fa-clock-o"></i> {{ activeLetter.date }}</time>
+
+                <p>{{ activeLetter.text }}</p>
+
+                <div style="padding: 34px 0">
+                    <hr>
+                    <div style="padding:34px;">
+                        <div ng-if="activeLetter.signatories.length > 0" style="display: flex; flex-direction: column; font-family: Jost; color: #707070">
+                            <span ng-repeat="signatoriee in activeLetter.signatories"><b>{{ signatoriee.fio }}</b> подписал это письмо <b>{{ signatoriee.date }}</b></span>
+                        </div>
+
+                        <div ng-if="activeLetter.signatories.length == 0">
+                            <h5>Ещё никто не подписал это письмо.</h5>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+
+                <div style="padding: 5px 0">
+                    <div style="padding:10px 34px;">
+                        <div ng-if="activeLetter.signatories.length > 0">
+
+                        </div>
+
+                        <div ng-if="activeLetter.signatories.length == 0">
+                            <h5>Вложений нет.</h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

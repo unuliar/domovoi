@@ -1,28 +1,15 @@
 <div class="row w-100 vh-100" ng-controller="LetterController">
     <div class="col-md-4">
         <div class="list_wrapper">
-            <div ng-repeat="category in lettersCollection">
-                <div class="list_item category_item category_item_{{ category.internal }}" data-toggle="collapse"
-                     data-target="#{{ category.internal }}" ng-click="category.collapsed = !category.collapsed">
+            <div ng-repeat="letter in letters" ng-class="list_item_wrapper">
+                <div class="list_item" ng-class="letter.classList" ng-click="setActiveLetter(letter)">
                     <div class="letter_content">
-                        <h4>{{ category.categoryName }} <i class="fa"
-                                                           ng-class="{'fa-chevron-down': !category.collapsed, 'fa-chevron-up': category.collapsed}"></i>
-                        </h4>
+                        <h4>{{ letter.title }}</h4>
+                        <time>{{ letter.date }}</time>
                     </div>
-                </div>
 
-                <div id="{{ category.internal }}" class="collapse">
-                    <div ng-repeat="letter in category.letters" ng-class="list_item_wrapper">
-                        <div class="list_item" ng-class="letter.classList" ng-click="setActiveLetter(letter)">
-                            <div class="letter_content">
-                                <h4>{{ letter.title }}</h4>
-                                <time>{{ letter.date }}</time>
-                            </div>
-
-                            <div class="letter_author_avatar">
-                                <img src="{{ letter.user.avatar }}"/>
-                            </div>
-                        </div>
+                    <div class="letter_author_avatar">
+                        <img src="{{ letter.user.avatar }}"/>
                     </div>
                 </div>
             </div>
