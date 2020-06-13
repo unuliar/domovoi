@@ -28,7 +28,7 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
         ],
         attachments: []
     };
-
+    $rootScope.setLoader(true);
     $rootScope.apiCall(
         'GET',
         'meeting/get',
@@ -37,6 +37,7 @@ app.controller('MeetingsRoomController', function ($scope, $rootScope, $routePar
         },
         (result) => {
             console.log(result);
+            $rootScope.setLoader(false);
             $scope.currentMeeting = result.data.meeting;
                 $scope.messages = result.data.meeting.chat_messages;
 

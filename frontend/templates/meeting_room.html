@@ -12,7 +12,7 @@
                             </div>
                         </div>
                         <div class="chat-message-time">
-                            <span>{{ message.send_time || message.time }}</span>
+                            <span>{{ (message.send_time || message.time ) | date:'HH:mm'}}</span>
                         </div>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
     <div class="col-md-8" style="height: 91.6vh; overflow: auto">
         <div class="letter_wrapper">
             <h1>{{ currentMeeting.title }}</h1>
-            <time><i class="fa fa-clock-o"></i> {{ currentMeeting.planned_date }}</time>
+            <time><i class="fa fa-clock-o"></i> {{ currentMeeting.planned_date | date:'dd.MM.yyyy HH:mm}}</time>
 
             <p>{{ currentMeeting.description }}</p>
 
@@ -42,7 +42,7 @@
                     <div ng-repeat="q in currentMeeting.meeting_questions">
                         <div class="poll_item">
                             <div class="row">
-                                <div class="col-md-12"><h6>{{ q.subject }}</h6></div>
+                                <div class="col-md-12"><h4>{{ q.subject }}</h4></div>
                                 <div class="col-md-12"><span>{{ q.body }}</span></div>
                             </div>
                             <div ng-if="q.poll.id" class="row mt-2">
@@ -52,7 +52,7 @@
                             </div>
                             <hr>
                             <div style="padding: 5px 0">
-                                <div style="padding:10px 34px;">
+                                <div style="padding:10px 10px;">
                                     <div ng-if="q.attachments.length > 0">
 
                                     </div>
