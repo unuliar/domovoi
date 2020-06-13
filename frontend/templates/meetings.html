@@ -82,7 +82,7 @@
                 </div>
             </div>
 
-            <div class="button_wrapper">
+            <div class="button_wrapper" ng-if="!activeMeeting.archieved">
                 <a href="#!/meeting/{{ activeMeeting.id }}">
                     <button class="base_button primary_button">ВОЙТИ В КОМНАТУ СОБРАНИЯ</button>
                 </a>
