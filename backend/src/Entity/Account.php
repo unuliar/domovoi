@@ -90,7 +90,7 @@ class Account
     private $type = "OWNER";
 
     /**
-     * @ORM\OneToMany(targetEntity=Letter::class, mappedBy="initiator", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Meeting::class, mappedBy="initiator", orphanRemoval=true)
      */
     private $createdMeetings;
 
