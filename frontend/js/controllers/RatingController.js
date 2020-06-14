@@ -8,7 +8,7 @@ app.controller('RatingController', function ($scope, $rootScope) {
     $rootScope.setLoader(true);
 
     $rootScope.apiCall(
-        'POST',
+        'GET',
         'organisations/get',
         {},
         (result) => {
