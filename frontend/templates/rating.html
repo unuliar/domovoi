@@ -1,0 +1,40 @@
+<div class="row w-100 vh-100" ng-controller="RatingController">
+    <div class="col-md-12" style="padding: 30px; font-family: Jost;">
+        <table class="table table-striped">
+            <thead>
+                <tr style="border-color: #dee2e6;">
+                    <th style="border-color: #dee2e6;">Позиция в рейтинге</th>
+                    <th style="border-color: #dee2e6;">Название УК</th>
+                    <th style="border-color: #dee2e6;">Рейтинг</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="org in organisations" style="border-color: #dee2e6;">
+                    <td style="border-color: #dee2e6;">
+                        <span ng-if="org.rating_position + 1 == 1" style="font-weight: 600; color: goldenrod; font-size: 19px;">
+                            {{ org.rating_position + 1 }}
+                        </span>
+
+
+                        <span ng-if="org.rating_position + 1 == 2" style="font-weight: 600; color: darkgrey; font-size: 17px;">
+                            {{ org.rating_position + 1 }}
+                        </span>
+
+
+                        <span ng-if="org.rating_position + 1 == 3" style="font-weight: 600; color: saddlebrown; font-size: 15px;">
+                            {{ org.rating_position + 1 }}
+                        </span>
+
+
+                        <span ng-if="org.rating_position + 1 >= 4">
+                            {{ org.rating_position + 1 }}
+                        </span>
+
+                    </td>
+                    <td style="border-color: #dee2e6;">{{ org.full_name }}</td>
+                    <td style="border-color: #dee2e6;">{{ (org.respect_index * 10).toFixed(1) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

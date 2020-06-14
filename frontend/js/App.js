@@ -45,6 +45,12 @@ var app = angular.module('domovoi-app', ['ngRoute','ngCookies']).config(function
             controller: 'RequestsController'
         });
 
+    $routeProvider.when('/rating',
+        {
+            templateUrl: '/templates/rating.html',
+            controller: 'RatingController'
+        });
+
     $routeProvider.otherwise({redirectTo: '/index'});
 });
 

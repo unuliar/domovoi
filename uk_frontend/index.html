@@ -26,6 +26,7 @@
     <script src="js/controllers/MeetingsRoomController.js"></script>
     <script src="js/controllers/PaymentsController.js"></script>
     <script src="js/controllers/RequestsController.js"></script>
+    <script src="js/controllers/MeetingProtocolController.js"></script>
     <!-- end controllers -->
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -44,7 +45,7 @@
 
 <div class="container-fluid">
     <div class="row w-100 h-100">
-        <div class="col-md-2 col-sm-12 col-xs-12">
+        <div class="col-md-2 col-sm-12 col-xs-12 d-print-none">
             <div class="sidebar position-fixed-responsive" ng-controller="SidebarController">
                 <div class="sidebar__header">
                     <a href="/"><img src="img/logo.png" alt="Domovoi logo" /></a>
@@ -57,7 +58,7 @@
 
                     <div class="person_info">
                         <h3>{{ currentUser.last_name }} {{ currentUser.first_name }}</h3>
-                        <p style="text-align: center; font-family: Jost; color: #9ea0a6;">ООО "ЖКХ"</p>
+                        <p style="text-align: center; font-family: Jost; color: #9ea0a6;">ООО "УК "СЕВЕРО-ВОСТОЧНАЯ"</p>
                     </div>
 
                     <div class="tabs_wrapper">
@@ -87,7 +88,7 @@
             </div>
         </div>
         <div class="col-md-10 col-sm-12 col-xs-12">
-            <div class="content_header sticky-top bg-white">
+            <div class="content_header sticky-top bg-white d-print-none">
                 <h3>{{ pageTitle }}</h3>
             </div>
 
