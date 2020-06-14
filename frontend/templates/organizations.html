@@ -16,8 +16,11 @@
                 <div class="center">
                     <h4>{{ currentOrg.name }}</h4>
                     <h5>{{ currentOrg.phone }}</h5>
-                    <star-rating-component uib-popover="Рейтинг: {{currentOrg.respect_index}}<br/>Позиция в рейтинге: {{rating_position}}" rating=" currentOrg.respect_index ">
-                    </star-rating-component>
+                    <div uib-popover="Рейтинг: 2\nПозиция в рейтинге: {{rating_position}}" >
+                        <star-rating-component rating=" currentOrg.respect_index ">
+                        </star-rating-component>
+                    </div>
+
                 </div>
 
                 <div class="right-side">
