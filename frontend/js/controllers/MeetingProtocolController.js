@@ -5,7 +5,7 @@ app.controller('MeetingProtocolController', function ($scope, $rootScope, $route
     //document.body.innerHTML = document.getElementsByTagName("ng-view")[0] ?  document.getElementsByTagName("ng-view")[0].innerHTML : document.body.innerHTML;
     $rootScope.checkAuth();
 
-    $rootScope.pageTitle = "Протокол письма";
+    $rootScope.pageTitle = "Протокол собрания";
 
 
     $scope.init = () => {
