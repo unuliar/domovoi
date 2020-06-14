@@ -23,9 +23,9 @@
         <div ng-if="activeMeeting !== null">
             <div class="letter_person_block">
                 <div class="letter_person_info">
-                    <img src="{{ activeMeeting.initiator.avatar }}"/>
+                    <img src="{{ activeMeeting.initiator.photo_url }}"/>
 
-                    <h4>{{ activeMeeting.initiator.last_name }} {{ activeMeeting.initiator.name }}</h4>
+                    <h4>{{ activeMeeting.initiator.last_name }} {{ activeMeeting.initiator.first_name }}</h4>
                 </div>
 
                 <div class="letter_tabs">
