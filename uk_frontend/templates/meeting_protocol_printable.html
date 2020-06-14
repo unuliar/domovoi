@@ -1,0 +1,120 @@
+<div class="container justify-content-center" ng-controller="MeetingProtocolController" >
+    <div class="justify-content-center col-md-12" ng-init="init()">
+        <div class="col-12" style="text-align: center; justify-content: space-around; margin-top:20px;">
+           <h4 class="text-center">Протокол №1</h4>
+        </div>
+
+        <div style="text-align: center">
+            <b>Внеочередного общего собрания собсвенников помещений в многоквартирном доме</b>
+        </div>
+
+        <div class="row justify-content-between">
+            <div class="col-4">
+                {{meeting.house.city}}
+            </div>
+            <div class="col-4">
+                {{meeting.planned_date | date:'dd.MM.yyyy'}}
+            </div>
+        </div>
+        <div class="row justify-content-start">
+            <div class="col-12" ng-repeat="q in head">
+                    <b>{{q.name}}:</b> {{q.value}}
+            </div>
+        </div>
+
+        <div class="row justify-content-center" style="margin-top: 25px;">
+            <div class="col-11">
+                    <span><i>В соответствии с частью 3 статьи 45 Жилищного кодекса Российской Федерации: общее собрание собственников помещений в многоквартирном доме
+                    правомочно (имеет кворум), ксли в нем приняли участие собственники помещений в данном доме или их представители, обладающие более чем
+                        пятидесятью процентами голосов от общего числа голосов</i></span>
+            </div>
+        </div>
+
+        <div class="row justify-content-start"  style="margin-top: 25px;">
+            <div class="col-12 " >
+                <p>
+                    Общее число голосов собственников в многоквартирном доме - {{meeting.house.residential_premise_total_square}} кв. м. Количество голосов собственников, принявших участие в глосовании - {{meeting.participated}} голосов
+                    или {{meeting.quorum | number:1}} % от общего числа голосов. Количество голосов определяется в соответствии с ч. 3 ст. 48 ЖК РФ.
+                </p>
+            </div>
+        </div>
+
+        <div class="row justify-content-start" style="margin-top: 25px;">
+            <div class="col-12">
+                <b>Кворум {{(meeting.quorum) > 50 ? '' : 'НЕ'}} имеется. Общее собрание собственников помещений {{(meeting.quorum) > 50 ? '' : 'НЕ'}} правомочно</b>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 25px">
+            <b>Повестка для неочередного общего собрания собсвенников помещений</b>
+        </div>
+
+        <div class="row justify-content-start">
+            <div class="col-12">
+                <ol>
+                    <li ng-repeat="q in meeting.meeting_questions">{{q.subject}}</li>
+                </ol>
+
+            </div>
+        </div>
+
+
+        <div class="row justify-content-start" style="margin-top: 20px">
+            <div class="col-12">
+                <ol>
+                    <li ng-repeat="q in meeting.meeting_questions" ng-if="q.poll">
+                        <b>По вопросу "{{q.subject}}"</b>
+                        <table style="text-align: center;border:1px solid black;margin-top: 10px">
+                            <thead style="">
+                                <tr>
+                                    <th colspan="2">За</th><th colspan="2">Против</th><th colspan="2">Воздержались</th>
+                                </tr>
+                                <tr>
+                                    <th>Количество голосов</th><th>% от числа проголосовавших</th><th>Количество голосов</th><th>% от числа проголосовавших</th><th>Количество голосов</th><th>% от числа проголосовавших</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>{{q.poll.stat.agr.sum}}</th>
+                                    <th>{{(q.poll.stat.agr.percent ? q.poll.stat.agr.percent : 0) | number:1}}</th>
+                                    <th>{{q.poll.stat.dis.sum}}</th>
+                                    <th>{{(q.poll.stat.dis.percent ? q.poll.stat.dis.percent : 0) | number:1}}</th>
+                                    <th>{{q.poll.stat.ign.sum}}</th>
+                                    <th>{{(q.poll.stat.ign.percent  ? q.poll.stat.ign.percent : 0)  | number:1}}</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <b>Решение {{(q.poll.stat.agr.percent ? q.poll.stat.agr.percent : 0) > 50 ? '' : 'НЕ'}} принято</b>
+                    </li>
+
+                </ol>
+
+            </div>
+        </div>
+
+
+        <div class="row justify-content-center" style="margin-top: 25px; margin-bottom: 25px">
+            <div class="col-4">
+                <div style="padding: 10px 10px;border: 4px solid black;border-radius: 25px; min-width: 400px">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img style="width: 50px; height: 50px" src="../img/herb.png"/>
+                        </div>
+                        <div class="col-md-9">
+                            <b>ДОКУМЕНТ ПОДПИСАН ЭЛЕКТРОННОЙ ПОДПИСЬЮ</b>
+                        </div>
+                    </div>
+                    <div>
+                        Сертификат: <span>feawfqq5638fesjfn125wmql128321</span>
+                    </div>
+                    <div>
+                        Владелец: <b>{{meeting.house.org.name}}</b>
+                    </div>
+                    <div>
+                        Действителен: с 03.12.2019 по 03.12.2024
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
