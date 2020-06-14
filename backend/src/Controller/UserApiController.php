@@ -113,4 +113,18 @@ class UserApiController extends ApiController
 
         return $response;
     }
+
+    /** //https://oauth.vk.com/authorize?client_id=7508602&display=page&redirect_uri=http://localhost:81/api/vkAuthCallback&scope=notifications,email&response_type=code&v=5.110
+     * @Rest\Get("/api/randomHouse")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function testRandom()
+    {
+        $hRep = $this->getDoctrine()->getRepository(House::class);
+
+        dd($hRep->getRandom());
+        exit();
+    }
 }
