@@ -11,7 +11,7 @@ app.controller('OrganizationController', function ($scope, $rootScope) {
         {},
         (result) => {
             if(result.data.status === 'ok') {
-                result.data.org.respect_index =  result.data.org.respect_index*100;
+                result.data.org.respect_index =  result.data.org.respect_index*10;
                 console.log(result.data.org.respect_index);
                 $scope.currentOrg = result.data.org;
 
