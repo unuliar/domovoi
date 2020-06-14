@@ -17,14 +17,19 @@
                     <h4>{{ currentOrg.name }}</h4>
                     <h5>{{ currentOrg.phone }}</h5>
 
-                    <div id="popover" data-toggle="hover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?" title="Рейтинг: {{currentOrg.respect_index | number:1}}
+                    <div id="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?" title="Рейтинг: {{currentOrg.respect_index | number:1}}
                     Позиция в рейтинге: {{currentOrg.rating_position}}" >
                         <star-rating-component rating=" currentOrg.respect_index ">
                         </star-rating-component>
                     </div>
 
                     <script>
-                        $('#popover').popover();
+                        $(document).ready(function(){
+                            $('[data-toggle="popover"]').popover({
+                                placement : 'bottom',
+                                trigger : 'hover'
+                            });
+                        });
                     </script>
                 </div>
 
