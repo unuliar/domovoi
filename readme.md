@@ -11,4 +11,4 @@
 
 Презентация: `HouseKeepersPresent.pdf`
 
-Демонстрация: `WIP`
+Демонстрация: `DomovoiDemonstration.mp4`
