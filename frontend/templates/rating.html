@@ -1,0 +1,20 @@
+<div class="row w-100 vh-100" ng-controller="RatingController">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Позиция в рейтинге</th>
+                    <th>Название УК</th>
+                    <th>Рейтинг</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="org in organisations">
+                    <td>{{ org.rating_position + 1 }}</td>
+                    <td>{{ org.full_name }}</td>
+                    <td>{{ (org.respect_index * 10).toFixed(1) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
