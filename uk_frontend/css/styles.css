@@ -141,6 +141,10 @@ a:hover {
     align-items: center;
 }
 
+table, th, td {
+    border: 1px solid black;
+}
+
 .tabs_wrapper {
     margin-top: 29px;
     width:100%;
@@ -769,4 +773,33 @@ button:focus {
     justify-content: center;
     flex-direction: column;
     display: flex;
+}
+
+
+.star-rating {
+    unicode-bidi: bidi-override;
+    color: gray;
+    font-size: 25px;
+    height: 25px;
+    line-height: 25px;
+    position: relative;
+    white-space: nowrap;
+    display:inline-block;
+
+}
+.selectable .star {
+    cursor: pointer;
+}
+.star-rating-top {
+          color: gold;
+          position: absolute;
+          z-index: 1;
+          display: inline-block;
+          top: 0;
+          left: 0;
+          overflow: hidden;
+      }
+.star-rating-bottom {
+    display: inline-block;
+    z-index: 0;
 }
