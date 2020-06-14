@@ -69,8 +69,6 @@
                 <hr>
             </div>
 
-
-            <div style="padding: 5px 0">
                 <div style="padding:10px 34px;">
                     <div ng-if="activeLetter.attachments.length > 0">
 
@@ -80,7 +78,6 @@
                         <h5>Вложений нет.</h5>
                     </div>
                 </div>
-            </div>
 
             <div class="button_wrapper" ng-if="!activeMeeting.archieved">
                 <a href="#!/meeting/{{ activeMeeting.id }}">
@@ -88,7 +85,7 @@
                 </a>
             </div>
 
-            <div class="button_wrapper" ng-if="activeMeeting.archieved">
+            <div class="button_wrapper" style="margin-top: -10px; margin-bottom: 10px;" ng-if="activeMeeting.archieved">
                 <a href="#!/meeting/{{ activeMeeting.id }}/protocol/printable">
                     <button class="base_button primary_button">ПРОТОКОЛ СОБРАНИЯ</button>
                 </a>
