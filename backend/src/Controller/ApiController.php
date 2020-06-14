@@ -103,4 +103,27 @@ class ApiController extends \FOS\RestBundle\Controller\AbstractFOSRestController
         }
 
     }
+
+    /**
+     * @Rest\Get("/api/organisations/get")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response
+     */
+    public function getOrgs(\Symfony\Component\HttpFoundation\Request $request)
+    {
+       $orgRepo = $this->getDoctrine()->getRepository(Organisation::class);
+
+       $orgs = $orgRepo->findAll();
+
+        usort(/**
+         * @param Organisation $v1
+         * @param Organisation $v2
+         * @return mixed
+         */ $orgs, function ($v1, $v2) {
+            /** @var Organisation $v1 */
+            return $v1->getRespectIndex() < $v2->getRespectIndex();
+         });
+
+         return $this->handleView($this->view(['status' => 'ok', 'orgs' => $orgs], Response::HTTP_OK));
+    }
 }
