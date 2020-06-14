@@ -774,3 +774,31 @@ button:focus {
     flex-direction: column;
     display: flex;
 }
+
+
+.star-rating {
+    unicode-bidi: bidi-override;
+    color: gray;
+    font-size: 25px;
+    height: 25px;
+    line-height: 25px;
+    position: relative;
+    white-space: nowrap;
+    display:inline-block;
+    &-top {
+     color: gold;
+     position: absolute;
+     z-index: 1;
+     display: inline-block;
+     top: 0;
+     left: 0;
+     overflow: hidden;
+    }
+    &-bottom {
+     display: inline-block;
+     z-index: 0;
+    }
+    .selectable .star {
+        cursor: pointer;
+    }
+}

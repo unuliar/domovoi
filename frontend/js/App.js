@@ -131,3 +131,93 @@ app.run(function ($rootScope, $http, $cookies) {
         return ruMoment.format('LLL');
     };
 });
+
+const appComponent = {
+    template: `
+    <star-rating-component
+      select="$ctrl.onSelect($event)"
+      rating="$ctrl.average">
+    </star-rating-component>
+    <pre>Average: {{$ctrl.average}}%</pre>
+    <pre>Ratings: {{$ctrl.ratings|json}}</pre>
+  `,
+    transclude: true,
+    controller: 'appComponentCtrl'
+};
+
+function appComponentCtrl() {
+    this.ratings = [];
+    this.onSelect = (value) => {
+        this.ratings.push(value);
+    };
+    Object.defineProperties(this, {
+            average: {
+                get() {
+                    return this.ratings.reduce(
+                        function(p,c,i) {
+                            return p+(c-p)/(i+1)
+                        }, 0
+                    );
+                }
+            }
+        }
+    )}
+
+const starRatingComponent = {
+    template: `
+  	<div
+    	class="star-rating"
+      ng-class="{selectable: $ctrl.select}">
+  		<div class="star-rating-top" style="width: {{$ctrl.rating}}%">
+      	<span
+          class="star"
+        	ng-repeat="star in ::$ctrl.stars"
+          ng-click="$ctrl.onSelect(star.value)">★</span>
+      </div>
+  		<div class="star-rating-bottom">
+      	<span
+          class="star"
+        	ng-repeat="star in ::$ctrl.stars"
+          ng-click="$ctrl.onSelect(star.value)">☆</span>
+      </div>    
+    </div>
+  `,
+    controller: 'starRatingComponentCtrl',
+    bindings: {
+        rating: '<',
+        select: '&',
+        range: '<'
+    }
+}
+
+function starRatingComponentCtrl(starRangeFilter) {
+    this.$onInit = function(){
+        this.stars = starRangeFilter(this.range || 5);
+    }
+    this.onSelect = function(value) {
+        if (!this.select) return false;
+        this.select({$event: value});
+    }
+}
+
+function starRange() {
+    return function(range) {
+        stars = []
+        range = parseInt(range);
+        const step = 100/range;
+        for (var i=0; i<range; i++) {
+            var count = i+1;
+            stars.push({
+                count: count,
+                value: step*count
+            });
+        }
+        return stars;
+    };
+}
+app
+    .component('appComponent', appComponent)
+    .controller('appComponentCtrl', appComponentCtrl)
+    .component('starRatingComponent', starRatingComponent)
+    .controller('starRatingComponentCtrl', starRatingComponentCtrl)
+    .filter('starRange', starRange);
