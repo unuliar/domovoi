@@ -1,4 +1,4 @@
-var app = angular.module('domovoi-app', ['ngRoute', 'ngCookies']).config(function ($routeProvider) {
+var app = angular.module('domovoi-app', ['ngRoute', 'ui.bootstrap','ngCookies']).config(function ($routeProvider) {
     $routeProvider.when('/letters',
         {
             templateUrl: '/templates/letters.html',
