@@ -115,6 +115,11 @@ class Organisation
      */
     private $posts;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $ratingPosition;
+
     public function __construct()
     {
         $this->houses = new ArrayCollection();
@@ -408,6 +413,18 @@ class Organisation
                 $post->setOrg(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRatingPosition(): ?int
+    {
+        return $this->ratingPosition;
+    }
+
+    public function setRatingPosition(?int $ratingPosition): self
+    {
+        $this->ratingPosition = $ratingPosition;
 
         return $this;
     }

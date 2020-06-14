@@ -65,10 +65,25 @@ class CalcRating extends Command
             $rate = (0.6 * ($x1) + 0.2 * $x2 + 0.2 * $x3) * 5 + 3.5;
 
             $organisation->setRespectIndex($rate);
+
+        }
+
+        usort(/**
+         * @param Organisation $v1
+         * @param Organisation $v2
+         * @return mixed
+         */ $ors, function ($v1, $v2) {
+            /** @var Organisation $v1 */
+            return $v1->getRespectIndex() < $v2->getRespectIndex();
+    });
+
+        foreach ($ors as $k => $organisation) {
+            $organisation->setRatingPosition($k);
             $this->entityManager->persist($organisation);
         }
+
         $this->entityManager->flush();
-        $output->write($maxPersonalPerHouse . "\n\n");
+
         return 1;
     }
 
