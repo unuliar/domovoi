@@ -14,7 +14,7 @@ app.controller('RatingController', function ($scope, $rootScope) {
         (result) => {
             console.log(result)
             $rootScope.setLoader(false);
-            $scope.organisations = result.orgs;
+            $scope.organisations = result.data.orgs;
         }
     );
 });
