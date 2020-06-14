@@ -17,7 +17,7 @@
                     <h4>{{ currentOrg.name }}</h4>
                     <h5>{{ currentOrg.phone }}</h5>
 
-                    <div id="popover" data-toggle="popover" data-title="Рейтинг УК" title="Рейтинг: {{currentOrg.respect_index | number:1}}
+                    <div id="popover" data-toggle="popover" title="Рейтинг УК" data-content="Рейтинг: {{currentOrg.respect_index | number:1}}
                     Позиция в рейтинге: {{currentOrg.rating_position}}"  >
                         <star-rating-component rating=" currentOrg.respect_index ">
                         </star-rating-component>
