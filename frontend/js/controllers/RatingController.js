@@ -1,7 +1,7 @@
 app.controller('RatingController', function ($scope, $rootScope) {
     $rootScope.checkAuth();
 
-    $rootScope.pageTitle = "Коллективные письма в УК";
+    $rootScope.pageTitle = "РЕЙТИНГ УПРАВЛЯЮЩИХ КОМПАНИЙ";
 
     $scope.organisations = [];
 
