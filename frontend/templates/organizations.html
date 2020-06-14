@@ -16,11 +16,9 @@
                 <div class="center">
                     <h4>{{ currentOrg.name }}</h4>
                     <h5>{{ currentOrg.phone }}</h5>
-                    <button popover-trigger="mouseenter" popover-placement="top" uib-popover="Рейтинг: {{currentOrg.respect_index | number:1}}\nПозиция в рейтинге: {{currentOrg.rating_position}}" >
-               we
-                    </button>
 
-                    <div popover-trigger="mouseenter" popover-placement="top" uib-popover="Рейтинг: {{currentOrg.respect_index | number:1}}\nПозиция в рейтинге: {{currentOrg.rating_position}}" >
+                    <div title="Рейтинг: {{currentOrg.respect_index | number:1}}
+                    Позиция в рейтинге: {{currentOrg.rating_position}}" >
                         <star-rating-component rating=" currentOrg.respect_index ">
                         </star-rating-component>
                     </div>
