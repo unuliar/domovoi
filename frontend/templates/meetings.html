@@ -8,7 +8,7 @@
                 <div class="list_item" ng-class="meeting.classList" ng-click="setActiveMeeting(meeting)">
                     <div class="letter_content">
                         <h4>{{ meeting.title }}</h4>
-                        <time>{{ formatDate(meeting.planned_date) }}</time>
+                        <time>{{ formatDate(meeting.planned_date) }} <span class="badge badge-primary" ng-if="meeting.archieved">ЗАВЕРШЕНО</span></time>
                     </div>
 
                     <div class="letter_author_avatar">
@@ -23,9 +23,9 @@
         <div ng-if="activeMeeting !== null">
             <div class="letter_person_block">
                 <div class="letter_person_info">
-                    <img src="{{ activeMeeting.user.avatar }}"/>
+                    <img src="{{ activeMeeting.initiator.photo_url }}" style="border-radius: 50%"/>
 
-                    <h4>{{ activeMeeting.user.last_name }} {{ activeMeeting.user.name }}</h4>
+                    <h4>{{ activeMeeting.initiator.last_name }} {{ activeMeeting.initiator.first_name }}</h4>
                 </div>
 
                 <div class="letter_tabs">
@@ -35,7 +35,7 @@
             </div>
             <div class="letter_wrapper overflow-y">
                 <h1>{{ activeMeeting.title }}</h1>
-                <time><i class="fa fa-clock-o"></i> {{ formatDate(activeMeeting.planned_date) }}</time>
+                <time><i class="fa fa-clock-o"></i> {{ formatDate(activeMeeting.planned_date) }} <span class="badge badge-primary" ng-if="activeMeeting.archieved">ЗАВЕРШЕНО</span></time>
 
                 <p>{{ activeMeeting.description }}</p>
 
@@ -85,6 +85,12 @@
             <div class="button_wrapper" ng-if="!activeMeeting.archieved">
                 <a href="#!/meeting/{{ activeMeeting.id }}">
                     <button class="base_button primary_button">ВОЙТИ В КОМНАТУ СОБРАНИЯ</button>
+                </a>
+            </div>
+
+            <div class="button_wrapper" ng-if="activeMeeting.archieved">
+                <a href="#!/meeting/{{ activeMeeting.id }}/protocol/printable">
+                    <button class="base_button primary_button">ПРОТОКОЛ СОБРАНИЯ</button>
                 </a>
             </div>
         </div>

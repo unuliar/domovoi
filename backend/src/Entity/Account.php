@@ -90,7 +90,7 @@ class Account
     private $type = "OWNER";
 
     /**
-     * @ORM\OneToMany(targetEntity=Letter::class, mappedBy="initiator", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Meeting::class, mappedBy="initiator", orphanRemoval=true)
      */
     private $createdMeetings;
 
@@ -429,6 +429,26 @@ class Account
                 $assignedLetter->setWorker(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedMeetings()
+    {
+        return $this->createdMeetings;
+    }
+
+    /**
+     * @param mixed $createdMeetings
+     *
+     * @return Account
+     */
+    public function setCreatedMeetings($createdMeetings)
+    {
+        $this->createdMeetings = $createdMeetings;
 
         return $this;
     }
