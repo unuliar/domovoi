@@ -785,20 +785,21 @@ button:focus {
     position: relative;
     white-space: nowrap;
     display:inline-block;
-    &-top {
-     color: gold;
-     position: absolute;
-     z-index: 1;
-     display: inline-block;
-     top: 0;
-     left: 0;
-     overflow: hidden;
-    }
-    &-bottom {
-     display: inline-block;
-     z-index: 0;
-    }
-    .selectable .star {
-        cursor: pointer;
-    }
+
+}
+.selectable .star {
+    cursor: pointer;
+}
+.star-rating-top {
+          color: gold;
+          position: absolute;
+          z-index: 1;
+          display: inline-block;
+          top: 0;
+          left: 0;
+          overflow: hidden;
+      }
+.star-rating-bottom {
+    display: inline-block;
+    z-index: 0;
 }
