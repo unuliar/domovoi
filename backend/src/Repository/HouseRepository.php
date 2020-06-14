@@ -20,7 +20,7 @@ class HouseRepository extends ServiceEntityRepository
     }
 
     public function getRandom() {
-        $totalRowsTable = $this->createQueryBuilder('a')->select('id')->getQuery()->getResult();
+        $totalRowsTable = $this->createQueryBuilder('a')->select('a.id')->getQuery()->getResult();
         $random_ids = mt_rand(0,count($totalRowsTable));
 
 
