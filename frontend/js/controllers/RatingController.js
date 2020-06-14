@@ -12,6 +12,7 @@ app.controller('RatingController', function ($scope, $rootScope) {
         'organisations/get',
         {},
         (result) => {
+            console.log(result)
             $rootScope.setLoader(false);
             $scope.organisations = result.orgs;
         }
