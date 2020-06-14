@@ -1,5 +1,5 @@
 <div class="row w-100 vh-100" ng-controller="RatingController">
-    <div class="col-md-12" style="padding: 30px; font-family: Jost">
+    <div class="col-md-12" style="padding: 30px; font-family: Jost;">
         <table class="table table-stripped">
             <thead>
                 <tr>
@@ -9,10 +9,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="org in organisations">
-                    <td>{{ org.rating_position + 1 }}</td>
-                    <td>{{ org.full_name }}</td>
-                    <td>{{ (org.respect_index * 10).toFixed(1) }}</td>
+                <tr ng-repeat="org in organisations" style="border-color: #dee2e6;">
+                    <td style="border-color: #dee2e6;">{{ org.rating_position + 1 }}</td>
+                    <td style="border-color: #dee2e6;">{{ org.full_name }}</td>
+                    <td style="border-color: #dee2e6;">{{ (org.respect_index * 10).toFixed(1) }}</td>
                 </tr>
             </tbody>
         </table>
