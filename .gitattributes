@@ -1,0 +1,3 @@
+backend/src/Migrations/* linguist-vendored
+frontend/libs/* linguist-vendored
+uk_frontend/libs/* linguist-vendored
